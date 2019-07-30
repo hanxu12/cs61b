@@ -80,6 +80,10 @@ Also, all methods should be non-static. */
 
 	}
 
+	public void draw(){
+		StdDraw.picture(this.xxPos, this.yyPos, "images/" + this.imgFileName);
+	}
+	
 	public static void main(String[] args) {
 
 	}

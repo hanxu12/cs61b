@@ -11,9 +11,10 @@ public class NBody{
 	public static Planet[] readPlanets(String fileaddr){
 		In in = new In(fileaddr);
 		/** Create an array of 5 planets*/
-		Planet[] planets = new Planet[5];
-		int firstItemInFile = in.readInt();
-		double universeradius= in.readDouble();
+		
+		int planetno = in.readInt();
+		Planet[] planets = new Planet[planetno];
+		double radius= in.readDouble();
 		for (int i = 0; i < planets.length; i ++){
 			double xpos = in.readDouble();
 			double ypos = in.readDouble();

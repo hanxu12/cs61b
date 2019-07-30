@@ -1,5 +1,5 @@
 public class NBody{
-	private static double readRadius(String fileaddr){
+	public static double readRadius(String fileaddr){
 		In in = new In(fileaddr);
 
 		int firstItemInFile = in.readInt();

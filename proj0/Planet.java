@@ -44,15 +44,35 @@ Also, all methods should be non-static. */
 
 	}
 
+	public double calcForceExertedByX(Planet p){
+		double distx = 0;
+		if (p.xxPos > this.xxPos){
+			distx = p.xxPos - this.xxPos;
+		}
+		else{
+			distx = this.xxPos - p.xxPos;
+		}
+		return this.calcForceExertedBy(p) * distx / this.calcDistance(p);
+	}
+
+	public double calcForceExertedByY(Planet p){
+		double disty = 0;
+		if (p.yyPos > this.yyPos){
+			disty = p.yyPos - this.yyPos;
+		}
+		else{
+			disty = this.yyPos - p.yyPos;
+		}
+		return this.calcForceExertedBy(p) * disty / this.calcDistance(p);
+	}
+
 	public double calcNetForceExertedByX(Planet[] allplanets){
 		double netforcex = 0;
 		for (int i = 0; i < allplanets.length; i++){
 			if (allplanets[i].equals(this)){
-				netforcex += 0;
+				continue;
 			}
-			else{
-			netforcex += Math.abs(allplanets[i].xxPos - this.xxPos) / calcDistance(allplanets[i]) * calcForceExertedBy(allplanets[i]);
-			}
+			netforcex += calcForceExertedByX(allplanets[i]);
 		}
 		return netforcex;
 	}
@@ -61,11 +81,9 @@ Also, all methods should be non-static. */
 		double netforcey = 0;
 		for (int i = 0; i < allplanets.length; i++){
 			if (allplanets[i].equals(this)){
-				netforcey += 0;
+				continue;
 			}
-			else{
-			netforcey += Math.abs(allplanets[i].yyPos - this.yyPos) / calcDistance(allplanets[i]) * calcForceExertedBy(allplanets[i]);
-			}
+			netforcey += calcForceExertedByY(allplanets[i]);
 		}
 		return netforcey;
 	}

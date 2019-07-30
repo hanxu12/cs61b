@@ -1,5 +1,5 @@
 public class NBody{
-	public static Double readRadius(String fileaddr){
+	private static double readRadius(String fileaddr){
 		In in = new In(fileaddr);
 
 		int firstItemInFile = in.readInt();
@@ -29,19 +29,19 @@ public class NBody{
 
 	public static void main(String[] args){
 		/**Store the 0th and 1st cmd line args as doubles named T and dt */
-		Double T = Double.parseDouble(args[0]);
-		Double dt = Double.parseDouble(args[1]);
+		double T = Double.parseDouble(args[0]);
+		double dt = Double.parseDouble(args[1]);
 		String filename = args[2];
-		Double radius = readRadius(filename);
+		double radius = readRadius(filename);
 		Planet[] planets = readPlanets(filename);
-		Double timenow = 0.0;
+		double timenow = 0.0;
 
 		while (timenow < T){
-			Double[] xForces = new Double[5];
-			Double[] yForces = new Double[5];
+			double[] xForces = new double[5];
+			double[] yForces = new double[5];
 			for (int i = 0; i < planets.length; i ++){
-				Double xForce = planets[i].calcNetForceExertedByX(planets);
-				Double yForce = planets[i].calcNetForceExertedByY(planets);
+				double xForce = planets[i].calcNetForceExertedByX(planets);
+				double yForce = planets[i].calcNetForceExertedByY(planets);
 				xForces[i] = xForce;
 				yForces[i] = yForce;
 				planets[i].update(dt, xForce, yForce);

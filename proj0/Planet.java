@@ -7,7 +7,7 @@ public class Planet{
 	public double mass;
 	public String imgFileName;
 
-	double G = 0.0000000000667;
+	private double G = 0.0000000000667;
 /**Your Planet class should NOT have a main method, 
 because we’ll never run the Planet class directly (i.e. we will never do java Planet). 
 Also, all methods should be non-static. */
@@ -46,24 +46,24 @@ Also, all methods should be non-static. */
 
 	public double calcForceExertedByX(Planet p){
 		double distx = 0;
-		if (p.xxPos > this.xxPos){
+//		if (p.xxPos > this.xxPos){
 			distx = p.xxPos - this.xxPos;
-		}
+/**		}
 		else{
 			distx = this.xxPos - p.xxPos;
 		}
-		return this.calcForceExertedBy(p) * distx / this.calcDistance(p);
+*/		return this.calcForceExertedBy(p) * distx / this.calcDistance(p);
 	}
 
 	public double calcForceExertedByY(Planet p){
 		double disty = 0;
-		if (p.yyPos > this.yyPos){
+//		if (p.yyPos > this.yyPos){
 			disty = p.yyPos - this.yyPos;
-		}
+/**		}
 		else{
 			disty = this.yyPos - p.yyPos;
 		}
-		return this.calcForceExertedBy(p) * disty / this.calcDistance(p);
+*/		return this.calcForceExertedBy(p) * disty / this.calcDistance(p);
 	}
 
 	public double calcNetForceExertedByX(Planet[] allplanets){
@@ -102,10 +102,11 @@ Also, all methods should be non-static. */
 		StdDraw.picture(this.xxPos, this.yyPos, "images/" + this.imgFileName);
 	}
 	
+/**
 	public static void main(String[] args) {
 
 	}
-
+*/
 }
 
 

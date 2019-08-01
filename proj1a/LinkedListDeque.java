@@ -1,9 +1,10 @@
 public class LinkedListDeque<T> {
 
-    public IntNode sentinel;
-    public int size;
+    private IntNode sentinel;
+    private int size;
+    private IntNode current = sentinel;
 
-    public class IntNode{
+    private class IntNode{
         public T item;
         public IntNode prev;
         public IntNode next;
@@ -66,7 +67,9 @@ public class LinkedListDeque<T> {
         IntNode old = sentinel.next;
         sentinel.next = sentinel.next.next;
         sentinel.next.prev = sentinel;
-        size -= 1;
+        if (size > 0) {
+            size -= 1;
+        }
         return old.item;
     }
 
@@ -74,7 +77,9 @@ public class LinkedListDeque<T> {
         IntNode old = sentinel.prev;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.next = sentinel;
-        size -= 1;
+        if (size > 0) {
+            size -= 1;
+        }
         return old.item;
     }
 
@@ -89,21 +94,17 @@ public class LinkedListDeque<T> {
     }
 
     public T getRecursive(int index){
-        /**
-        IntNode curr = sentinel;
-        if (index == 0){
-            return curr.item;
-        }
-        curr = curr.next;
-        return getRecursive(index - 1);
-         */
-        return null;
 
+        if (index == 0){
+            return current.item;
+        }
+        current = current.next;
+
+        return getRecursive(index - 1);
     }
 
-
     public LinkedListDeque(LinkedListDeque other){
-        
+
 
     }
 

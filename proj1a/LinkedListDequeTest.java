@@ -58,7 +58,7 @@ public class LinkedListDequeTest {
 		lld1.printDeque();
 
 		printTestStatus(passed);
-		
+
 	}
 
 	/** Adds an item, then removes an item, and ensures that dll is empty afterwards. */

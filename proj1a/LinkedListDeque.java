@@ -87,22 +87,25 @@ public class LinkedListDeque<T> {
         return curr.next.item;
 
     }
-/**
+
     public T getRecursive(int index){
+        /**
         IntNode curr = sentinel;
         if (index == 0){
             return curr.item;
         }
         curr = curr.next;
         return getRecursive(index - 1);
+         */
+        return null;
 
     }
 
 
     public LinkedListDeque(LinkedListDeque other){
-        return null;
+        
 
     }
-*/
+
 
 }

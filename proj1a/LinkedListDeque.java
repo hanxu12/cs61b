@@ -24,11 +24,13 @@ public class LinkedListDeque<T> {
         size = 0;
     }
 
+    /**
     public LinkedListDeque(T x){
         sentinel = new IntNode(null,null, null);
         sentinel.next = new IntNode(sentinel, x, sentinel);
         size = 1;
     }
+     */
 
     public void addFirst(T item){
         sentinel.next = new IntNode(sentinel, item, sentinel.next);
@@ -107,12 +109,5 @@ public class LinkedListDeque<T> {
             return getRecursivehelper(x- 1, current.next);
         }
     }
-
-
-    public LinkedListDeque(LinkedListDeque other){
-
-
-    }
-
 
 }

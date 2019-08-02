@@ -98,16 +98,18 @@ public class LinkedListDeque<T> {
     }
 
     private T getRecursivehelper(int index, boolean isFirstCall){
-
         if (isFirstCall == true){
             IntNode current = sentinel;
+            isFirstCall = false;
         }
         if (index == 0){
             return current.next.item;
         }
-        current = current.next;
+        else {
+            current = current.next;
 
-        return getRecursivehelper(index - 1, false);
+            return getRecursivehelper(index - 1, false);
+        }
     }
 
 

@@ -2,7 +2,7 @@ public class LinkedListDeque<T> {
 
     private IntNode sentinel;
     private int size;
-    public IntNode current = sentinel;
+    public IntNode current;
 
     private class IntNode{
         public T item;
@@ -94,14 +94,23 @@ public class LinkedListDeque<T> {
     }
 //Try with helper method
     public T getRecursive(int index){
+        return getRecursivehelper(index, true);
+    }
 
+    private T getRecursivehelper(int index, boolean isFirstCall){
+
+        if (isFirstCall == true){
+            IntNode current = sentinel;
+        }
         if (index == 0){
             return current.next.item;
         }
         current = current.next;
 
-        return getRecursive(index - 1);
+        return getRecursivehelper(index - 1, false);
     }
+
+
 
     public LinkedListDeque(LinkedListDeque other){
 

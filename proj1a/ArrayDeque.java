@@ -46,6 +46,10 @@ public class ArrayDeque<T> {
         return false;
     }
 
+    public int size() {
+        return size;
+    }
+
     public void printDeque() {
         int p = plusOne(nextfirst);
         int counter = 0;

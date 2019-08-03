@@ -7,7 +7,7 @@ public class LinkedListDequeTest {
             System.out.println("isEmpty() returned " + actual + ", but expected: " + expected);
             return false;
         }
-    return true;
+        return true;
     }
 
     /* Utility method for printing out empty checks. */

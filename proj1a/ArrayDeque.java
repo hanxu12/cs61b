@@ -73,7 +73,6 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-
         nextfirst = plusOne(nextfirst);
         if (size > 0) {
             size -= 1;
@@ -81,8 +80,13 @@ public class ArrayDeque<T> {
         return items[nextfirst];
 
     }
-    
+
     public T removeLast() {
+        /**
+        if (size/ items.length < 0.25){
+            resize(items.length / 2);
+        }
+         */
         nextlast = minusOne(nextlast);
         if (size > 0){
             size -= 1;
@@ -91,7 +95,10 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        if (items[index] == null) {
+        if (index > items.length | index < 0) {
+            return null;
+        }
+        if (items[index] == null){
             return null;
         }
         return items[index];

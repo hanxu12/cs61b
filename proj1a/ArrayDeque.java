@@ -27,15 +27,16 @@ public class ArrayDeque<T> {
     }
 
     //** Resizes the underlying array to the target capacity. */
-    private void resize(int capacity){
+    private void resizeup(int capacity){
         T[] a = (T [])new Object[capacity];
-        System.arraycopy(items, 0, a, 0, size);
+        System.arraycopy(items, 0, a,0, nextlast + 1);
+        System.arraycopy(items, nextfirst ,a,nextfirst + items.length, items.length - nextlast - 1);
         items = a;
     }
 
     public void addFirst(T item) {
-        if (size == items.length - 2){
-            resize(2 * items.length);
+        if (nextfirst - nextlast == 1){
+            resizeup(2 * items.length);
         }
         items[nextfirst] = item;
         size += 1;
@@ -43,8 +44,8 @@ public class ArrayDeque<T> {
     }
 
     public void addLast(T item) {
-        if (size == items.length - 2){
-            resize(2 * items.length);
+        if (nextfirst - nextlast == 1){
+            resizeup(2 * items.length);
         }
         items[nextlast] = item;
         size += 1;

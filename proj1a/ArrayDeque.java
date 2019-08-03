@@ -1,26 +1,26 @@
 public class ArrayDeque<T> {
 
-    public T[] items;
-    public int size;
-    public int nextfirst;
-    public int nextlast;
+    private T[] items;
+    private int size;
+    private int nextfirst;
+    private int nextlast;
 
     public ArrayDeque() {
-        items = (T [])new Object[8];
+        items = (T []) new Object[8];
         size = 0;
         nextfirst = 3;
         nextlast = 4;
     }
 
-    public int minusOne(int index){
-        if (index == 0){
+    public int minusOne(int index) {
+        if (index == 0) {
             return items.length - 1;
         }
         return index - 1;
     }
 
-    public int plusOne(int index){
-        if (index == items.length){
+    public int plusOne(int index) {
+        if (index == items.length) {
             return 0;
         }
         return index + 1;
@@ -39,14 +39,14 @@ public class ArrayDeque<T> {
         nextlast = plusOne(nextlast);
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         if (size == 0){
             return true;
         }
         return false;
     }
 
-    public void printDeque(){
+    public void printDeque() {
         int p = plusOne(nextfirst);
         int counter = 0;
         while (counter <= size){
@@ -56,7 +56,7 @@ public class ArrayDeque<T> {
         }
     }
 //Remove first, i.e. remove item[nextfirst + 1]
-    public T removeFirst(){
+    public T removeFirst() {
         //whether this is necessary?
         nextfirst = plusOne(nextfirst);
         size -= 1;
@@ -65,7 +65,7 @@ public class ArrayDeque<T> {
     }
 
     //Remove last, i.e. remove item[nextlast - 1]
-    public T removeLast(){
+    public T removeLast() {
         nextlast = minusOne(nextlast);
         size -= 1;
         return items[nextlast];
@@ -77,8 +77,4 @@ public class ArrayDeque<T> {
         }
         return items[index];
     }
-
-
-
-
 }

@@ -40,7 +40,7 @@ public class ArrayDeque<T> {
     }
 
     public boolean isEmpty() {
-        if (size == 0){
+        if (size == 0) {
             return true;
         }
         return false;
@@ -49,7 +49,7 @@ public class ArrayDeque<T> {
     public void printDeque() {
         int p = plusOne(nextfirst);
         int counter = 0;
-        while (counter <= size){
+        while (counter <= size) {
             p = plusOne(p);
             counter = counter + 1;
             System.out.print("items[p]" + " ");
@@ -71,10 +71,11 @@ public class ArrayDeque<T> {
         return items[nextlast];
     }
 
-    public T get(int index){
-        if (items[index] == null){
+    public T get(int index) {
+        if (items[index] == null) {
             return null;
         }
         return items[index];
     }
 }
+

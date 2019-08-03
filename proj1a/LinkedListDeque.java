@@ -5,9 +5,9 @@ public class LinkedListDeque<T> {
 
 
     private class IntNode {
-        public T item;
-        public IntNode prev;
-        public IntNode next;
+        private T item;
+        private IntNode prev;
+        private IntNode next;
 
         public IntNode(IntNode p, T i, IntNode n) {
             prev = p;
@@ -18,7 +18,7 @@ public class LinkedListDeque<T> {
 
 
     public LinkedListDeque() {
-        sentinel = new IntNode(null,null, null);
+        sentinel = new IntNode(null ,null , null);
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
         size = 0;
@@ -45,7 +45,7 @@ public class LinkedListDeque<T> {
     }
 
     public boolean isEmpty() {
-        if (size == 0){
+        if (size == 0) {
             return true;
         }
         return false;
@@ -57,7 +57,7 @@ public class LinkedListDeque<T> {
 
     public void printDeque() {
         IntNode curr = sentinel;
-        while (curr.next != sentinel){
+        while (curr.next != sentinel) {
             System.out.print(curr.item + " ");
             curr = curr.next;
         }
@@ -104,8 +104,10 @@ public class LinkedListDeque<T> {
         }
 
         else {
-            return getRecursivehelper(x- 1, current.next);
+            return getRecursivehelper(x - 1, current.next);
         }
     }
 
 }
+
+

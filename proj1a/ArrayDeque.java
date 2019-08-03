@@ -12,28 +12,40 @@ public class ArrayDeque<T> {
         nextlast = 4;
     }
 
-    public int minusOne(int index) {
+    private int minusOne(int index) {
         if (index == 0) {
             return items.length - 1;
         }
         return index - 1;
     }
 
-    public int plusOne(int index) {
+    private int plusOne(int index) {
         if (index == items.length) {
             return 0;
         }
         return index + 1;
     }
 
-//int minusOne(int index)
+    //** Resizes the underlying array to the target capacity. */
+    private void resize(int capacity){
+        T[] a = (T [])new Object[capacity];
+        System.arraycopy(items, 0, a, 0, size);
+        items = a;
+    }
+
     public void addFirst(T item) {
+        if (size == items.length){
+            resize(2 * size);
+        }
         items[nextfirst] = item;
         size += 1;
         nextfirst = minusOne(nextfirst);
     }
 
     public void addLast(T item) {
+        if (size == items.length){
+            resize(2 * size);
+        }
         items[nextlast] = item;
         size += 1;
         nextlast = plusOne(nextlast);
@@ -59,19 +71,22 @@ public class ArrayDeque<T> {
             System.out.print("items[p]" + " ");
         }
     }
-//Remove first, i.e. remove item[nextfirst + 1]
+
     public T removeFirst() {
-        //whether this is necessary?
+
         nextfirst = plusOne(nextfirst);
-        size -= 1;
+        if (size > 0) {
+            size -= 1;
+        }
         return items[nextfirst];
 
     }
-
-    //Remove last, i.e. remove item[nextlast - 1]
+    
     public T removeLast() {
         nextlast = minusOne(nextlast);
-        size -= 1;
+        if (size > 0){
+            size -= 1;
+        }
         return items[nextlast];
     }
 

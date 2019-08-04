@@ -31,6 +31,10 @@ public class ArrayDequeTest {
         int i = ad1.removeFirst();
         int j = ad1.removeFirst();
         int k = ad1.removeFirst();
+        int l = ad1.removeFirst();
+        int m = ad1.removeFirst();
+        int n = ad1.removeFirst();
+        int o = ad1.removeFirst();
 
     }
 

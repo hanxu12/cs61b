@@ -94,26 +94,29 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if ((float)size / items.length < 0.25){
-            resizedown(items.length/2);
-        }
-        nextfirst = plusOne(nextfirst);
         if (size > 0) {
+            if ((float) size / items.length < 0.25) {
+                resizedown(items.length / 2);
+            }
+            nextfirst = plusOne(nextfirst);
             size -= 1;
+            return items[nextfirst];
         }
-        return items[nextfirst];
-
+        return null;
     }
 
     public T removeLast() {
-        if ((float)size/ items.length < 0.25){
-            resizedown(items.length / 2);
+        if (size > 0){
+            if ((float)size/ items.length < 0.25){
+                resizedown(items.length / 2);
+            }
+            nextlast = minusOne(nextlast);
+            if (size > 0) {
+                size -= 1;
+            }
+            return items[nextlast];
         }
-        nextlast = minusOne(nextlast);
-        if (size > 0) {
-            size -= 1;
-        }
-        return items[nextlast];
+        return null;
     }
 /**
     public T get(int index) {

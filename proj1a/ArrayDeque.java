@@ -2,14 +2,14 @@ public class ArrayDeque<T> {
 
     private T[] items;
     private int size;
-    private int nextfirst;
-    private int nextlast;
+    private int nfirst;
+    private int nlast;
 
     public ArrayDeque() {
         items = (T []) new Object[8];
         size = 0;
-        nextfirst = 3;
-        nextlast = 4;
+        nfirst = 3;
+        nlast = 4;
     }
 
     private int minusOne(int index) {
@@ -29,47 +29,47 @@ public class ArrayDeque<T> {
     //** Resizes the underlying array to the target capacity. */
     private void resizeup(int capacity) {
         T[] a = (T []) new Object[capacity];
-        System.arraycopy(items, 0, a, 0, nextlast + 1);
-        System.arraycopy(items, nextfirst, a, nextfirst + items.length, items.length - nextlast - 1);
-        if (nextfirst != 0) {
-            nextfirst = nextfirst + items.length;
+        System.arraycopy(items, 0, a, 0, nlast + 1);
+        System.arraycopy(items, nfirst, a, nfirst + items.length, items.length - nlast - 1);
+        if (nfirst != 0) {
+            nfirst = nfirst + items.length;
         }
         items = a;
     }
 
     private void resizedown(int capacity) {
-        // nextfirst > nextlast
+        // nfirst > nlast
 
-        // nextfirst < nextlast
+        // nfirst < nlast
         T[] a = (T []) new Object[capacity];
 
-        if (nextfirst > nextlast) {
-            System.arraycopy(items, nextfirst, a, 0, items.length - nextfirst);
-            System.arraycopy(items, 0, a, items.length - nextfirst, nextlast + 1);
+        if (nfirst > nlast) {
+            System.arraycopy(items, nfirst, a, 0, items.length - nfirst);
+            System.arraycopy(items, 0, a, items.length - nfirst, nlast + 1);
         } else {
-            System.arraycopy(items, nextfirst, a, 0, size + 2);
+            System.arraycopy(items, nfirst, a, 0, size + 2);
         }
-        nextfirst = 0;
-        nextlast = size + 1;
+        nfirst = 0;
+        nlast = size + 1;
         items = a;
     }
 
     public void addFirst(T item) {
-        if (nextfirst == plusOne(nextlast)) {
+        if (nfirst == plusOne(nlast)) {
             resizeup(2 * items.length);
         }
-        items[nextfirst] = item;
+        items[nfirst] = item;
         size += 1;
-        nextfirst = minusOne(nextfirst);
+        nfirst = minusOne(nfirst);
     }
 
     public void addLast(T item) {
-        if (nextfirst == plusOne(nextlast)) {
+        if (nfirst == plusOne(nlast)) {
             resizeup(2 * items.length);
         }
-        items[nextlast] = item;
+        items[nlast] = item;
         size += 1;
-        nextlast = plusOne(nextlast);
+        nlast = plusOne(nlast);
     }
 
     public boolean isEmpty() {
@@ -84,7 +84,7 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        int p = plusOne(nextfirst);
+        int p = plusOne(nfirst);
         int counter = 0;
         while (counter <= size) {
             p = plusOne(p);
@@ -98,9 +98,9 @@ public class ArrayDeque<T> {
             if ((float) size / items.length < 0.25) {
                 resizedown(items.length / 2);
             }
-            nextfirst = plusOne(nextfirst);
+            nfirst = plusOne(nfirst);
             size -= 1;
-            return items[nextfirst];
+            return items[nfirst];
         }
         return null;
     }
@@ -110,11 +110,11 @@ public class ArrayDeque<T> {
             if ((float) size / items.length < 0.25) {
                 resizedown(items.length / 2);
             }
-            nextlast = minusOne(nextlast);
+            nlast = minusOne(nlast);
             if (size > 0) {
                 size -= 1;
             }
-            return items[nextlast];
+            return items[nlast];
         }
         return null;
     }
@@ -123,7 +123,7 @@ public class ArrayDeque<T> {
         if (index >= items.length - 2 | index < 0) {
             return null;
         }
-        int p = plusOne(nextfirst);
+        int p = plusOne(nfirst);
         p = p + index;
         if (items[p] == null){
             return null;
@@ -132,7 +132,7 @@ public class ArrayDeque<T> {
     }
 */
     public T get(int index) {
-        int p = plusOne(nextfirst);
+        int p = plusOne(nfirst);
         while (index > 0) {
             p = plusOne(p);
             index = index - 1;

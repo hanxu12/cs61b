@@ -96,13 +96,25 @@ public class ArrayDeque<T> {
         }
         return items[nextlast];
     }
-
+/**
     public T get(int index) {
         if (index >= items.length - 2 | index < 0) {
             return null;
         }
         int p = plusOne(nextfirst);
         p = p + index;
+        if (items[p] == null){
+            return null;
+        }
+        return items[p];
+    }
+*/
+    public T get(int index) {
+        int p = plusOne(nextfirst);
+        while (index > 0){
+            p = plusOne(p);
+            index = index - 1;
+        }
         if (items[p] == null){
             return null;
         }

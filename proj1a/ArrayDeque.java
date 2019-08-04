@@ -31,9 +31,10 @@ public class ArrayDeque<T> {
         T[] a = (T []) new Object[capacity];
         System.arraycopy(items, 0, a, 0, nextlast + 1);
         System.arraycopy(items, nextfirst, a, nextfirst + items.length, items.length - nextlast - 1);
-        nextfirst = nextfirst + items.length;
+        if (nextfirst != 0){
+            nextfirst = nextfirst + items.length;
+        }
         items = a;
-
     }
 
     public void addFirst(T item) {

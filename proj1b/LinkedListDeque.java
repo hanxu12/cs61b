@@ -1,14 +1,14 @@
-public class LinkedListDeque implements Deque<Item>{
+public class LinkedListDeque<Item> implements Deque<Item>{
 
     private IntNode sentinel;
     private int size;
 
     private class IntNode {
-        private T item;
+        private Item item;
         private IntNode prev;
         private IntNode next;
 
-        public IntNode(IntNode p, T i, IntNode n) {
+        public IntNode(IntNode p, Item i, IntNode n) {
             prev = p;
             item = i;
             next = n;
@@ -30,14 +30,14 @@ public class LinkedListDeque implements Deque<Item>{
      }
      */
 @Override
-    public void addFirst(T item) {
+    public void addFirst(Item item) {
         sentinel.next = new IntNode(sentinel, item, sentinel.next);
         sentinel.next.next.prev = sentinel.next;
         size += 1;
     }
 
 @Override
-    public void addLast(T item) {
+    public void addLast(Item item) {
         sentinel.prev.next = new IntNode(sentinel.prev, item, sentinel);
         sentinel.prev = sentinel.prev.next;
         size += 1;
@@ -67,7 +67,7 @@ public class LinkedListDeque implements Deque<Item>{
     }
 
 @Override
-    public T removeFirst() {
+    public Item removeFirst() {
         IntNode old = sentinel.next;
         sentinel.next = sentinel.next.next;
         sentinel.next.prev = sentinel;
@@ -78,7 +78,7 @@ public class LinkedListDeque implements Deque<Item>{
     }
 
 @Override
-    public T removeLast() {
+    public Item removeLast() {
         IntNode old = sentinel.prev;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.next = sentinel;
@@ -89,7 +89,7 @@ public class LinkedListDeque implements Deque<Item>{
     }
 
 @Override
-    public T get(int index) {
+    public Item get(int index) {
         IntNode curr = sentinel;
         while (index > 0) {
             curr = curr.next;
@@ -98,11 +98,11 @@ public class LinkedListDeque implements Deque<Item>{
         return curr.next.item;
     }
     //Try with helper method
-    public T getRecursive(int index) {
+    public Item getRecursive(int index) {
         return getRecursivehelper(index, sentinel);
     }
 
-    private T getRecursivehelper(int x, IntNode current) {
+    private Item getRecursivehelper(int x, IntNode current) {
         if (x == 0) {
             return current.next.item;
         } else {

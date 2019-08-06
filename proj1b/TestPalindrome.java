@@ -25,56 +25,56 @@ public class TestPalindrome {
 
     //Test edge case which word length is 1;
     @Test
-    public void testisPalindrome2(){
+    public void testisPalindrome2() {
         boolean actual = palindrome.isPalindrome("a");
         assertTrue(actual);
     }
 
     //Test normal case which length is 2;
     @Test
-    public void testisPalindrome3(){
+    public void testisPalindrome3() {
         boolean actual = palindrome.isPalindrome("ao");
         assertFalse(actual);
     }
 
     //Test normal case which length is 3 with 3 same characters
     @Test
-    public void testisPalindrome4(){
+    public void testisPalindrome4() {
         boolean actual = palindrome.isPalindrome("aaa");
         assertTrue(actual);
     }
 
     //Test normal case which length is 4 with 4 different characters
     @Test
-    public void testisPalindrome5(){
+    public void testisPalindrome5() {
         boolean actual = palindrome.isPalindrome("abcd");
         assertFalse(actual);
     }
 
     //Test normal case which length is 5 but is a palindrome
     @Test
-    public void testisPalindrome6(){
+    public void testisPalindrome6() {
         boolean actual = palindrome.isPalindrome("abcba");
         assertTrue(actual);
     }
 
     //Test normal case with capital letters and non-capital letters
     @Test
-    public void testisPalindrome7(){
+    public void testisPalindrome7() {
         boolean actual = palindrome.isPalindrome("AaaAa");
         assertFalse(actual);
     }
 
     //
     @Test
-    public void testisPalindromeCC1(){
+    public void testisPalindromeCC1() {
         CharacterComparator obo = new OffByOne();
         boolean actual = palindrome.isPalindrome("flake", obo);
         assertTrue(actual);
     }
 
     @Test
-    public void testisPalindromeCC2(){
+    public void testisPalindromeCC2() {
         CharacterComparator obo = new OffByOne();
         boolean actual = palindrome.isPalindrome("acefdb", obo);
         assertTrue(actual);
@@ -82,7 +82,7 @@ public class TestPalindrome {
 
     //Test a normal Palindrome is not a PalindromeCC
     @Test
-    public void testisPalindromeCC3(){
+    public void testisPalindromeCC3() {
         CharacterComparator obo = new OffByOne();
         boolean actual = palindrome.isPalindrome("aaa", obo);
         assertFalse(actual);

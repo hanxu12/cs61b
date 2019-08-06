@@ -1,4 +1,4 @@
-public class LinkedListDeque<Item> implements Deque<Item>{
+public class LinkedListDeque<Item> implements Deque<Item> {
 
     private IntNode sentinel;
     private int size;
@@ -22,28 +22,21 @@ public class LinkedListDeque<Item> implements Deque<Item>{
         size = 0;
     }
 
-    /**
-     public LinkedListDeque(T x){
-     sentinel = new IntNode(null,null, null);
-     sentinel.next = new IntNode(sentinel, x, sentinel);
-     size = 1;
-     }
-     */
-@Override
+    @Override
     public void addFirst(Item item) {
         sentinel.next = new IntNode(sentinel, item, sentinel.next);
         sentinel.next.next.prev = sentinel.next;
         size += 1;
     }
 
-@Override
+    @Override
     public void addLast(Item item) {
         sentinel.prev.next = new IntNode(sentinel.prev, item, sentinel);
         sentinel.prev = sentinel.prev.next;
         size += 1;
     }
 
-@Override
+    @Override
     public boolean isEmpty() {
         if (size == 0) {
             return true;
@@ -51,12 +44,12 @@ public class LinkedListDeque<Item> implements Deque<Item>{
         return false;
     }
 
-@Override
+    @Override
     public int size() {
         return size;
     }
 
-@Override
+    @Override
     public void printDeque() {
         IntNode curr = sentinel;
         while (curr.next != sentinel) {
@@ -66,7 +59,7 @@ public class LinkedListDeque<Item> implements Deque<Item>{
         System.out.println(" ");
     }
 
-@Override
+    @Override
     public Item removeFirst() {
         IntNode old = sentinel.next;
         sentinel.next = sentinel.next.next;
@@ -77,7 +70,7 @@ public class LinkedListDeque<Item> implements Deque<Item>{
         return old.item;
     }
 
-@Override
+    @Override
     public Item removeLast() {
         IntNode old = sentinel.prev;
         sentinel.prev = sentinel.prev.prev;
@@ -88,7 +81,7 @@ public class LinkedListDeque<Item> implements Deque<Item>{
         return old.item;
     }
 
-@Override
+    @Override
     public Item get(int index) {
         IntNode curr = sentinel;
         while (index > 0) {

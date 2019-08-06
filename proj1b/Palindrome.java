@@ -7,6 +7,7 @@ public class Palindrome {
         return newdeque;
     }
 
+
     public boolean isPalindrome(String word) {
         return isPalindromehelper(wordToDeque(word));
     }
@@ -21,6 +22,25 @@ public class Palindrome {
             char last = deque.removeLast();
             if (first == last) {
                 isPalindromehelper(deque);
+            } else {
+                return false;
+            }
+            return true;
+        }
+    }
+
+    public boolean isPalindrome(String word, CharacterComparator cc){
+        return isPalindromeCChelper(wordToDeque(word), cc);
+    }
+
+    public boolean isPalindromeCChelper(Deque<Character> deque, CharacterComparator cc){
+        if (deque.size() < 2){
+            return true;
+        }else {
+            char first = deque.removeFirst();
+            char last = deque.removeLast();
+            if (cc.equalChars(first, last)) {
+                isPalindromeCChelper(deque, cc);
             } else {
                 return false;
             }

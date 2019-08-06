@@ -10,6 +10,7 @@ public class TestOffByOne {
     // Your tests go here.
    // Uncomment this class once you've created your CharacterComparator interface and OffByOne class.
     //Alphabetical chars
+    @Test
     public void testEqualchar1() {
        // OffByOne obo = new OffByOne();
         assertTrue(offByOne.equalChars('a', 'b'));
@@ -17,6 +18,7 @@ public class TestOffByOne {
     }
 
     //Alphabetical chars
+    @Test
     public void testEqualchar2() {
         OffByOne obo = new OffByOne();
         assertTrue(obo.equalChars('x', 'y'));
@@ -24,6 +26,7 @@ public class TestOffByOne {
     }
 
     //Alphabetical chars returns false
+    @Test
     public void testEqualchar3() {
         OffByOne obo = new OffByOne();
         assertFalse(obo.equalChars('a', 'e'));
@@ -31,12 +34,14 @@ public class TestOffByOne {
     }
 
     //Non-alphabetical characters
+    @Test
     public void testEqualchar4() {
         OffByOne obo = new OffByOne();
         assertTrue(obo.equalChars('&', '%'));
     }
 
     //Capital letters should return false
+    @Test
     public void testEqualchar5() {
         OffByOne obo = new OffByOne();
         assertFalse(obo.equalChars('A', 'a'));

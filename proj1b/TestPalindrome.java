@@ -64,4 +64,27 @@ public class TestPalindrome {
         boolean actual = palindrome.isPalindrome("AaaAa");
         assertFalse(actual);
     }
+
+    //
+    @Test
+    public void testisPalindromeCC1(){
+        CharacterComparator obo = new OffByOne();
+        boolean actual = palindrome.isPalindrome("flake", obo);
+        assertTrue(actual);
+    }
+
+    @Test
+    public void testisPalindromeCC2(){
+        CharacterComparator obo = new OffByOne();
+        boolean actual = palindrome.isPalindrome("acefdb", obo);
+        assertTrue(actual);
+    }
+
+    //Test a normal Palindrome is not a PalindromeCC
+    @Test
+    public void testisPalindromeCC3(){
+        CharacterComparator obo = new OffByOne();
+        boolean actual = palindrome.isPalindrome("aaa", obo);
+        assertFalse(actual);
+    }
 }

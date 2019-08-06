@@ -48,4 +48,27 @@ public class TestOffByOne {
         assertFalse(obo.equalChars('G', 'g'));
     }
 
+    //Capital letter should return false;
+    @Test
+    public void testEqualchar6() {
+        OffByOne obo = new OffByOne();
+        assertFalse(obo.equalChars('A', 'B'));
+        assertFalse(obo.equalChars('g', 'H'));
+    }
+
+    //Test non-alphabetical vs letters;
+    @Test
+    public void testEqualchar7() {
+        OffByOne obo = new OffByOne();
+        assertFalse(obo.equalChars('&', 'B'));
+        assertFalse(obo.equalChars('&', '^'));
+    }
+
+    //Test non-alphabetical vs letters;
+    @Test
+    public void testEqualchar8() {
+        OffByOne obo = new OffByOne();
+        assertFalse(obo.equalChars('B', 'G'));
+        //assertFalse(obo.equalChars('&', '^'));
+    }
 }

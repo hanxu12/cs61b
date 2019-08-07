@@ -8,11 +8,11 @@ public class TestOffByOne {
     static CharacterComparator offByOne = new OffByOne();
 
     // Your tests go here.
-   // Uncomment this class once CharacterComparator interface & OffByOne class created.
+    // Uncomment this class once CharacterComparator interface & OffByOne class created.
     //Alphabetical chars
     @Test
     public void testEqualchar1() {
-       // OffByOne obo = new OffByOne();
+       // OffByOne offByOne = new OffByOne();
         assertTrue(offByOne.equalChars('a', 'b'));
         assertTrue(offByOne.equalChars('b', 'c'));
     }
@@ -20,89 +20,89 @@ public class TestOffByOne {
     //Alphabetical chars
     @Test
     public void testEqualchar2() {
-        OffByOne obo = new OffByOne();
-        assertTrue(obo.equalChars('x', 'y'));
-        assertTrue(obo.equalChars('x', 'w'));
+        //OffByOne offByOne = new OffByOne();
+        assertTrue(offByOne.equalChars('x', 'y'));
+        assertTrue(offByOne.equalChars('x', 'w'));
     }
 
     //Alphabetical chars returns false
     @Test
     public void testEqualchar3() {
-        OffByOne obo = new OffByOne();
-        assertFalse(obo.equalChars('a', 'e'));
-        assertFalse(obo.equalChars('a', 'a'));
+        //OffByOne offByOne = new OffByOne();
+        assertFalse(offByOne.equalChars('a', 'e'));
+        assertFalse(offByOne.equalChars('a', 'a'));
     }
 
     //Non-alphabetical characters
     @Test
     public void testEqualchar4() {
-        OffByOne obo = new OffByOne();
-        assertTrue(obo.equalChars('&', '%'));
+        //OffByOne offByOne = new OffByOne();
+        assertTrue(offByOne.equalChars('&', '%'));
     }
 
     //Capital letters vs non-capital shld return false;
     @Test
     public void testEqualchar5() {
-        OffByOne obo = new OffByOne();
-        assertFalse(obo.equalChars('A', 'a'));
-        assertFalse(obo.equalChars('G', 'g'));
+        //OffByOne offByOne = new OffByOne();
+        assertFalse(offByOne.equalChars('A', 'a'));
+        assertFalse(offByOne.equalChars('G', 'g'));
     }
 
     //Capital letter should return false;
     @Test
     public void testEqualchar6() {
-        OffByOne obo = new OffByOne();
-        assertFalse(obo.equalChars('A', 'b'));
-        assertFalse(obo.equalChars('g', 'H'));
+        //OffByOne offByOne = new OffByOne();
+        assertFalse(offByOne.equalChars('A', 'b'));
+        assertFalse(offByOne.equalChars('g', 'H'));
     }
 
     //Test non-alphabetical vs letters;
     @Test
     public void testEqualchar7() {
-        OffByOne obo = new OffByOne();
-        assertFalse(obo.equalChars('&', 'B'));
-        assertFalse(obo.equalChars('&', '('));
+        //OffByOne offByOne = new OffByOne();
+        assertFalse(offByOne.equalChars('&', 'B'));
+        assertFalse(offByOne.equalChars('&', '('));
     }
 
     //Test non-alphabetical vs letters;
     @Test
     public void testEqualchar8() {
-        OffByOne obo = new OffByOne();
-        assertFalse(obo.equalChars('B', 'G'));
-        assertTrue(obo.equalChars('B', 'C'));
-        assertFalse(obo.equalChars('B', 'B'));
-        assertFalse(obo.equalChars('a', 'B'));
-        assertFalse(obo.equalChars('A', 'b'));
-        assertFalse(obo.equalChars('Z', 'X'));
-        assertTrue(obo.equalChars('Z', 'Y'));
-        //assertFalse(obo.equalChars('&', '^'));
+        //OffByOne offByOne = new OffByOne();
+        assertFalse(offByOne.equalChars('B', 'G'));
+        assertTrue(offByOne.equalChars('B', 'C'));
+        assertFalse(offByOne.equalChars('B', 'B'));
+        assertFalse(offByOne.equalChars('a', 'B'));
+        assertFalse(offByOne.equalChars('A', 'b'));
+        assertFalse(offByOne.equalChars('Z', 'X'));
+        assertTrue(offByOne.equalChars('Z', 'Y'));
+        //assertFalse(offByOne.equalChars('&', '^'));
     }
 
     @Test
     public void testEqualchar9() {
-        OffByOne obo = new OffByOne();
-        assertFalse(obo.equalChars('!', '@'));
-        assertFalse(obo.equalChars('*', '^'));
-        assertFalse(obo.equalChars('a', '*'));
-        assertFalse(obo.equalChars('A', '*'));
-        assertFalse(obo.equalChars('B', ')'));
-        assertFalse(obo.equalChars('Z', ')'));
-        assertFalse(obo.equalChars('(', 'Y'));
-        assertTrue(obo.equalChars('(', ')'));
-        assertTrue(obo.equalChars(' ', '!'));
+        //OffByOne offByOne = new OffByOne();
+        assertFalse(offByOne.equalChars('!', '@'));
+        assertFalse(offByOne.equalChars('*', '^'));
+        assertFalse(offByOne.equalChars('a', '*'));
+        assertFalse(offByOne.equalChars('A', '*'));
+        assertFalse(offByOne.equalChars('B', ')'));
+        assertFalse(offByOne.equalChars('Z', ')'));
+        assertFalse(offByOne.equalChars('(', 'Y'));
+        assertTrue(offByOne.equalChars('(', ')'));
+        assertTrue(offByOne.equalChars(' ', '!'));
     }
 
     @Test
     public void testEqualchar10() {
-        OffByOne obo = new OffByOne();
-        assertTrue(obo.equalChars('0', '1'));
-        assertTrue(obo.equalChars('2', '3'));
-        assertTrue(obo.equalChars('4', '5'));
-        assertTrue(obo.equalChars('8', '7'));
-        assertFalse(obo.equalChars('9', '0'));
-        assertFalse(obo.equalChars('7', '3'));
-        assertFalse(obo.equalChars('2', '8'));
-        assertFalse(obo.equalChars('1', '9'));
-        assertFalse(obo.equalChars(' ', '9'));
+        //OffByOne offByOne = new OffByOne();
+        assertTrue(offByOne.equalChars('0', '1'));
+        assertTrue(offByOne.equalChars('2', '3'));
+        assertTrue(offByOne.equalChars('4', '5'));
+        assertTrue(offByOne.equalChars('8', '7'));
+        assertFalse(offByOne.equalChars('9', '0'));
+        assertFalse(offByOne.equalChars('7', '3'));
+        assertFalse(offByOne.equalChars('2', '8'));
+        assertFalse(offByOne.equalChars('1', '9'));
+        assertFalse(offByOne.equalChars(' ', '9'));
     }
 }

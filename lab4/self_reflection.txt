@@ -8,23 +8,23 @@ A:
 
 Q: What's something you felt proud of in your code, if anything?
 
-A:
+A: I was able to figure out resizeup and resizedown
 
 Q: What's something that was particularly inelegant in your code, if anything?
 
-A:
+A: I feel resize could still be improved.
 
 Q: What did you learn by talking to your partner about writing ArrayDeque?
 
-A:
+A: No.
 
 Q: What do you wish you would have known before writing ArrayDeque, if anything?
 
-A:
+A: Tips on resizing.
 
 Q: If you wrote ArrayDeque again, what would you do differently, if anything?
 
-A:
+A: Try to implement resizeup in another fashion.
 
 -----
 
@@ -44,7 +44,7 @@ A:
 
 Q: What did you learn by talking to your partner about writing LinkedListDeque?
 
-A:
+A: No.
 
 Q: What do you wish you would have known before writing LinkedListDeque, if anything?
 

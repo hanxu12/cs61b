@@ -69,6 +69,40 @@ public class TestOffByOne {
     public void testEqualchar8() {
         OffByOne obo = new OffByOne();
         assertFalse(obo.equalChars('B', 'G'));
+        assertTrue(obo.equalChars('B', 'C'));
+        assertFalse(obo.equalChars('B', 'B'));
+        assertFalse(obo.equalChars('a', 'B'));
+        assertFalse(obo.equalChars('A', 'b'));
+        assertFalse(obo.equalChars('Z', 'X'));
+        assertTrue(obo.equalChars('Z', 'Y'));
         //assertFalse(obo.equalChars('&', '^'));
+    }
+
+    @Test
+    public void testEqualchar9() {
+        OffByOne obo = new OffByOne();
+        assertFalse(obo.equalChars('!', '@'));
+        assertFalse(obo.equalChars('*', '^'));
+        assertFalse(obo.equalChars('a', '*'));
+        assertFalse(obo.equalChars('A', '*'));
+        assertFalse(obo.equalChars('B', ')'));
+        assertFalse(obo.equalChars('Z', ')'));
+        assertFalse(obo.equalChars('(', 'Y'));
+        assertTrue(obo.equalChars('(', ')'));
+        assertTrue(obo.equalChars(' ', '!'));
+    }
+
+    @Test
+    public void testEqualchar10() {
+        OffByOne obo = new OffByOne();
+        assertTrue(obo.equalChars('0', '1'));
+        assertTrue(obo.equalChars('2', '3'));
+        assertTrue(obo.equalChars('4', '5'));
+        assertTrue(obo.equalChars('8', '7'));
+        assertFalse(obo.equalChars('9', '0'));
+        assertFalse(obo.equalChars('7', '3'));
+        assertFalse(obo.equalChars('2', '8'));
+        assertFalse(obo.equalChars('1', '9'));
+        assertFalse(obo.equalChars(' ', '9'));
     }
 }

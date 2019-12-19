@@ -21,7 +21,7 @@ public class BreakContinue {
 	int n = 3;
 	windowPosSum(a, n);
 
-	//Should print 4, 8, -3, 13, 9, 4
+	//Should print 4, 8, -3, 13, 9, 4, done
 	System.out.println(java.util.Arrays.toString(a));
 	}
 }

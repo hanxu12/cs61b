@@ -3,8 +3,8 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    double[] statArr;
-    int tempT;
+    private double[] statArr;
+    private int tempT;
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException("Wrong input");
@@ -17,13 +17,13 @@ public class PercolationStats {
             for (int j = 0; j < N * N; j++) {
 
                 while (!a.percolates()) {
-                int randRow = StdRandom.uniform(N);
-                int randCol = StdRandom.uniform(N);
-                while (!a.isOpen(randRow, randCol)){
-                    randRow = StdRandom.uniform(N);
-                    randCol = StdRandom.uniform(N);
-                }
-                a.open(StdRandom.uniform(N), StdRandom.uniform(N));
+                    int randRow = StdRandom.uniform(N);
+                    int randCol = StdRandom.uniform(N);
+                    while (!a.isOpen(randRow, randCol)) {
+                        randRow = StdRandom.uniform(N);
+                        randCol = StdRandom.uniform(N);
+                    }
+                    a.open(StdRandom.uniform(N), StdRandom.uniform(N));
                 }
 
                 statArr[i] = a.numberOfOpenSites() / ((double) N * N);

@@ -8,10 +8,10 @@ public class Percolation {
     private WeightedQuickUnionUF checker1;
     private WeightedQuickUnionUF checker2;
     public Percolation(int N) {
-        grid = new boolean[N][N];
         if (N <= 0) {
             throw new IllegalArgumentException("Wrong input");
         }
+        grid = new boolean[N][N];
         //initialize the grid
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {

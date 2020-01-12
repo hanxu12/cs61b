@@ -12,15 +12,18 @@ public class PercolationStats {
         }
         tempT = T;
         statArr = new double[T];
-        for (int i = 0; i < T; i++) {
+        for (int i = 0; i < statArr.length; i++) {
             Percolation a = pf.make(N);
             while (!a.percolates()) {
-                int randRow = StdRandom.uniform(N);
-                int randCol = StdRandom.uniform(N);
-                while (!a.isOpen(randRow, randCol)) {
-                    randRow = StdRandom.uniform(N);
-                    randCol = StdRandom.uniform(N);
-                }
+                int indexOpen = StdRandom.uniform(N * N);
+                int randRow = indexOpen / N;
+                int randCol = indexOpen % N;
+//                int randRow = StdRandom.uniform(N);
+//                int randCol = StdRandom.uniform(N);
+//                while (!a.isOpen(randRow, randCol)) {
+//                    randRow = StdRandom.uniform(N);
+//                    randCol = StdRandom.uniform(N);
+//                }
                 a.open(randRow, randCol);
             }
             statArr[i] = a.numberOfOpenSites() / ((double) N * N);

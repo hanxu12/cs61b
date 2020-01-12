@@ -30,7 +30,7 @@ public class Percolation {
             checker2.union(N * N, i);
         }
         //virtual btm site
-        for (int i = 0; i < N; i++) {
+        for (int i = 1; i <= N; i++) {
             checker2.union(N * N + 1, N * N - i);
         }
     }
@@ -107,7 +107,7 @@ public class Percolation {
         if (grid.length < 1) {
             return false;
         }
-        return checker2.connected(grid.length * grid.length, grid.length * grid.length + 1);
+        return checker2.connected(grid.length * grid.length + 1, grid.length * grid.length);
 //        for (int i = 0; i < grid.length; i++){
 //            if (isFull(grid.length-1, i)){
 //                return true;

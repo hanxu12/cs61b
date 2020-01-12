@@ -10,26 +10,21 @@ public class PercolationStats {
             throw new IllegalArgumentException("Wrong input");
             //throw new RuntimeException("Ring Buffer Overflow");
         }
-        Percolation a = pf.make(N);
         tempT = T;
         statArr = new double[T];
         for (int i = 0; i < T; i++) {
-            for (int j = 0; j < N * N; j++) {
-
-                while (!a.percolates()) {
-                    int randRow = StdRandom.uniform(N);
-                    int randCol = StdRandom.uniform(N);
-                    while (!a.isOpen(randRow, randCol)) {
-                        randRow = StdRandom.uniform(N);
-                        randCol = StdRandom.uniform(N);
-                    }
-                    a.open(StdRandom.uniform(N), StdRandom.uniform(N));
+            Percolation a = pf.make(N);
+            while (!a.percolates()) {
+                int randRow = StdRandom.uniform(N);
+                int randCol = StdRandom.uniform(N);
+                while (!a.isOpen(randRow, randCol)) {
+                    randRow = StdRandom.uniform(N);
+                    randCol = StdRandom.uniform(N);
                 }
-
-                statArr[i] = a.numberOfOpenSites() / ((double) N * N);
+                a.open(randRow, randCol);
             }
+            statArr[i] = a.numberOfOpenSites() / ((double) N * N);
         }
-
     }
 
     public double mean() {

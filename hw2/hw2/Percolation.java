@@ -104,8 +104,8 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        if (grid.length < 1) {
-            return false;
+        if (grid.length == 1) {
+            return isFull(0, 0);
         }
         return checker2.connected(grid.length * grid.length + 1, grid.length * grid.length);
 //        for (int i = 0; i < grid.length; i++){

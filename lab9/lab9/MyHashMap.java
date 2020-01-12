@@ -53,19 +53,43 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      */
     @Override
     public V get(K key) {
-        throw new UnsupportedOperationException();
+        if (key == null) {
+            throw new IllegalArgumentException("null key not allowed");
+        }
+        int tempHash = hash(key);
+        return buckets[tempHash].get(key);
     }
 
     /* Associates the specified value with the specified key in this map. */
     @Override
     public void put(K key, V value) {
-        throw new UnsupportedOperationException();
+        if (key == null) {
+            throw new IllegalArgumentException("null key not allowed");
+        }
+        int tempHash = hash(key);
+        if (!buckets[tempHash].containsKey(key)) {
+            size += 1;
+        }
+        buckets[tempHash].put(key, value);
+//        if (loadFactor() > MAX_LF){
+//            resize(size() * 2);
+//        }
     }
 
+    private void resize(int newSize) {
+            int currSize = size();
+            ArrayMap<K, V>[] tempBucket = new ArrayMap[currSize * 2];
+            for (int i = 0; i < currSize; i ++) {
+                for (K key : buckets[i].keySet()) {
+                    tempBucket[i].put(key, buckets[i].get(key));
+                }
+            }
+            buckets = tempBucket;
+    }
     /* Returns the number of key-value mappings in this map. */
     @Override
     public int size() {
-        throw new UnsupportedOperationException();
+        return size;
     }
 
     //////////////// EVERYTHING BELOW THIS LINE IS OPTIONAL ////////////////

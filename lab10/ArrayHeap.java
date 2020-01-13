@@ -103,7 +103,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
-        while (index > 1 && more(parentIndex(index), index)) {
+        while (index > 1 && min(parentIndex(index), index) == index) {
             swap(index, parentIndex(index));
             index = index / 2;
         }
@@ -119,10 +119,10 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         while (2 * index <= size()) {
             int childIndex = 2 * index;
             //Select the smaller child
-            if (childIndex < size() && more(childIndex, childIndex + 1)) {
+            if (childIndex < size() && (min(childIndex, childIndex + 1) == childIndex + 1)) {
                 childIndex += 1;
             }
-            if (less(index, childIndex)) {
+            if (min(index, childIndex) == index) {
                 break;
             }
             swap(index, childIndex);
@@ -208,9 +208,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
                 contents[nodeIdx].myPriority = priority;
             }
         }
-        if (less(nodeIdx, parentIndex(nodeIdx))) {
+        if (min(nodeIdx, parentIndex(nodeIdx)) == nodeIdx) {
             swim(nodeIdx);
-        } else if (more(nodeIdx, nodeIdx * 2)) {
+        } else if (min(nodeIdx, nodeIdx * 2) == nodeIdx * 2) {
             sink(nodeIdx);
         }
     }

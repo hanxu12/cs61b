@@ -49,7 +49,6 @@ public class TestSimpleOomage {
         assertEquals(ooA, ooA2);
         assertNotEquals(ooA, ooB);
         assertNotEquals(ooA2, ooB);
-        assertTrue(ooC.hashCode() == ooC2.hashCode());
         assertNotEquals(ooA, "ketchup");
     }
 

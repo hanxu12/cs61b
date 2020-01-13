@@ -13,9 +13,21 @@ public class SimpleOomage implements Oomage {
     private static final boolean USE_PERFECT_HASH = false;
 
     @Override
+    /**
+     * @reference https://algs4.cs.princeton.edu/12oop/Date.java.html
+     */
     public boolean equals(Object o) {
-        // TODO: Write this method.
-        return false;
+        if (o == this) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (o.getClass() != this.getClass()) {
+            return false;
+        }
+        SimpleOomage that = (SimpleOomage) o;
+        return (this.red == that.red) && (this.green == that.green) && (this.blue == that.blue);
     }
 
     /* Uncomment this method after you've written

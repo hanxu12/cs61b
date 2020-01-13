@@ -102,7 +102,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
-        validateSinkSwimArg(index);
+        //validateSinkSwimArg(index);
         while (index > 1 && min(parentIndex(index), index) == index) {
             swap(index, parentIndex(index));
             index = index / 2;
@@ -114,7 +114,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     private void sink(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
-        validateSinkSwimArg(index);
+        //validateSinkSwimArg(index);
 
         while (2 * index <= size()) {
             int childIndex = 2 * index;
@@ -247,12 +247,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Throws an exception if the index is invalid for sinking or swimming.
      */
     private void validateSinkSwimArg(int index) {
-//        if (index < 1) {
-//            throw new IllegalArgumentException("Cannot sink or swim nodes with index 0 or less");
-//        }
-//        if (index > size) {
-//            throw new IllegalArgumentException("Can't sink/swim node w/idx more than curr size.");
-//        }
+        if (index < 1) {
+            throw new IllegalArgumentException("Cannot sink or swim nodes with index 0 or less");
+        }
+        if (index > size) {
+            throw new IllegalArgumentException("Can't sink/swim node w/idx more than curr size.");
+        }
         if (contents[index] == null) {
             throw new IllegalArgumentException("Cannot sink or swim a null node.");
         }

@@ -71,21 +71,46 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             size += 1;
         }
         buckets[tempHash].put(key, value);
-//        if (loadFactor() > MAX_LF){
-//            resize(size() * 2);
-//        }
+        if (loadFactor() > MAX_LF) {
+            resize();
+        }
     }
 
-    private void resize(int newSize) {
-            int currSize = size();
-            ArrayMap<K, V>[] tempBucket = new ArrayMap[currSize * 2];
-            for (int i = 0; i < currSize; i ++) {
-                for (K key : buckets[i].keySet()) {
-                    tempBucket[i].put(key, buckets[i].get(key));
-                }
+    /**
+     * Resize the array to double its size
+     * @source https://github.com/aviatesk/cs61b-sp18/blob/master/lab9/lab9/MyHashMap.java
+     */
+    private void resize() {
+        ArrayMap<K, V>[] backupBuckets = buckets;
+        buckets = new ArrayMap[size * 2];
+        for (int i = 0; i < buckets.length; i++) {
+            buckets[i] = new ArrayMap<>();
+        }
+        for (ArrayMap<K, V> backupBucket: backupBuckets) {
+            for (K tempKey: backupBucket.keySet()) {
+                V tempVal = backupBucket.get(tempKey);
+                int tempHash = hash(tempKey);
+                buckets[tempHash].put(tempKey, tempVal);
             }
-            buckets = tempBucket;
+        }
     }
+
+//do not understand why this does not work
+//    private void resize() {
+//        ArrayMap<K, V>[] tempBucket = new ArrayMap[size * 2];
+//        for (int i = 0; i < tempBucket.length; i += 1) {
+//            tempBucket[i] = new ArrayMap<K, V>();
+//        }
+//        for (ArrayMap<K, V> bucket : buckets) {
+//            for (K key : bucket.keySet()) {
+//                V value = bucket.get(key);
+//                int tempHash = hash(key);
+//                tempBucket[tempHash].put(key, value);
+//            }
+//        }
+//        buckets = tempBucket;
+//    }
+
     /* Returns the number of key-value mappings in this map. */
     @Override
     public int size() {

@@ -128,7 +128,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             swap(index, childIndex);
             index = childIndex;
         }
-        return;
     }
     //3 helper methods below
     private boolean more(int index1, int index2) {
@@ -248,12 +247,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Throws an exception if the index is invalid for sinking or swimming.
      */
     private void validateSinkSwimArg(int index) {
-        if (index < 1) {
-            throw new IllegalArgumentException("Cannot sink or swim nodes with index 0 or less");
-        }
-        if (index > size) {
-            throw new IllegalArgumentException("Can't sink/swim node w/idx more than curr size.");
-        }
+//        if (index < 1) {
+//            throw new IllegalArgumentException("Cannot sink or swim nodes with index 0 or less");
+//        }
+//        if (index > size) {
+//            throw new IllegalArgumentException("Can't sink/swim node w/idx more than curr size.");
+//        }
         if (contents[index] == null) {
             throw new IllegalArgumentException("Cannot sink or swim a null node.");
         }

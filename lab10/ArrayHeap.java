@@ -27,24 +27,21 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node to the left of the node at i.
      */
     private static int leftIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return (2 * i);
     }
 
     /**
      * Returns the index of the node to the right of the node at i.
      */
     private static int rightIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return (2 * i + 1);
     }
 
     /**
      * Returns the index of the node that is the parent of the node at i.
      */
     private static int parentIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return i/2;
     }
 
     /**
@@ -106,9 +103,10 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
-
-        /** TODO: Your code here. */
-        return;
+        while (index > 1 && more(index / 2, index)) {
+            swap(index, index/2);
+            index = index / 2;
+        }
     }
 
     /**
@@ -118,10 +116,30 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        /** TODO: Your code here. */
+        while (2 * index <= size()) {
+            int childIndex = 2 * index;
+            //Select the smaller child
+            if (childIndex < size() && more(childIndex, childIndex + 1)) {
+                childIndex += 1;
+            }
+            if (less(index, childIndex)) {
+                break;
+            }
+            swap(index, childIndex);
+            index = childIndex;
+        }
         return;
     }
-
+    //3 helper methods below
+    private boolean more(int index1, int index2) {
+        return getNode(index1).myPriority > getNode(index2).myPriority;
+    }
+    private boolean less(int index1, int index2) {
+        return getNode(index1).myPriority < getNode(index2).myPriority;
+    }
+    private int getCapacity(){
+        return contents.length;
+    }
     /**
      * Inserts an item with the given priority value. This is enqueue, or offer.
      * To implement this method, add it to the end of the ArrayList, then swim it.
@@ -132,8 +150,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         if (size + 1 == contents.length) {
             resize(contents.length * 2);
         }
-
-        /* TODO: Your code here! */
+        contents[++size] = new Node(item, priority);
+        swim(size);
     }
 
     /**
@@ -142,8 +160,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T peek() {
-        /* TODO: Your code here! */
-        return (T)contents[0];
+        return contents[1].item();
     }
 
     /**
@@ -157,8 +174,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T removeMin() {
-        /* TODO: Your code here! */
-        return null;
+        Node minBackup = getNode(1);
+        swap(1, size);
+        contents[size] = null;
+        size -= 1;
+        sink(1);
+        return minBackup.item();
     }
 
     /**
@@ -180,8 +201,18 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public void changePriority(T item, double priority) {
-        /* TODO: Your code here! */
-        return;
+        int nodeIdx = 0;
+        for (int i = 1; i <= size(); i++){
+            if (getNode(i).item().equals(item)){
+                nodeIdx = i;
+                contents[nodeIdx].myPriority = priority;
+            }
+        }
+        if (less(nodeIdx, parentIndex(nodeIdx))){
+            swim(nodeIdx);
+        } else if (more(nodeIdx, nodeIdx * 2)){
+            sink(nodeIdx);
+        }
     }
 
     /**
@@ -212,7 +243,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             return toReturn;
         }
     }
-
 
     /**
      * Throws an exception if the index is invalid for sinking or swimming.

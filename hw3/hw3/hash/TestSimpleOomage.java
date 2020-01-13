@@ -4,9 +4,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.ArrayList;
 
 
 public class TestSimpleOomage {
@@ -26,15 +26,15 @@ public class TestSimpleOomage {
 //          meaning no two SimpleOomages should EVER have the same
 //          hashCode UNLESS they have the same red, blue, and green values!
         HashMap<SimpleOomage, Integer> hmap = new HashMap<>();
-        for (int i = 0; i <= 255; i += 5){
-            for (int j = 0; j <= 255; j += 5){
-                for (int k = 0; k <= 255; k += 5){
+        for (int i = 0; i <= 255; i += 5) {
+            for (int j = 0; j <= 255; j += 5) {
+                for (int k = 0; k <= 255; k += 5) {
                     SimpleOomage ooDemo = new SimpleOomage(i, j, k);
                     hmap.put(ooDemo, hmap.getOrDefault(ooDemo, 0) + 1);
                 }
             }
         }
-        for (Integer cnt: hmap.values()){
+        for (Integer cnt: hmap.values()) {
             assertTrue(cnt == 1);
         }
     }
@@ -44,9 +44,12 @@ public class TestSimpleOomage {
         SimpleOomage ooA = new SimpleOomage(5, 10, 20);
         SimpleOomage ooA2 = new SimpleOomage(5, 10, 20);
         SimpleOomage ooB = new SimpleOomage(50, 50, 50);
+        SimpleOomage ooC = new SimpleOomage(0, 5, 10);
+        SimpleOomage ooC2 = new SimpleOomage(5, 0, 0);
         assertEquals(ooA, ooA2);
         assertNotEquals(ooA, ooB);
         assertNotEquals(ooA2, ooB);
+        assertTrue(ooC.hashCode() == ooC2.hashCode());
         assertNotEquals(ooA, "ketchup");
     }
 
@@ -63,7 +66,7 @@ public class TestSimpleOomage {
     /* Uncomment this test after you finish haveNiceHashCode Spread in OomageTestUtility */
     @Test
     public void testRandomOomagesHashCodeSpread() {
-        List<Oomage> oomages = new ArrayList<>();
+        ArrayList<Oomage> oomages = new ArrayList<>();
         int N = 10000;
         for (int i = 0; i < N; i += 1) {
             oomages.add(SimpleOomage.randomSimpleOomage());

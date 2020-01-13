@@ -20,7 +20,7 @@ public class OomageTestUtility {
             oomageBank.put(bucketNum, oomageBank.getOrDefault(bucketNum, 0) + 1);
         }
         for (Integer cnt: oomageBank.values()) {
-            if (cnt < N / 50 || cnt > N / 2.5){
+            if (cnt < N / 50 || cnt > N / 2.5) {
                 return false;
             }
         }

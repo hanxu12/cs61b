@@ -41,29 +41,50 @@ public class Solver {
      * Solves the problem using the A* algorithm. Assumes a solution exists.
      */
     public Solver(WorldState initial) {
-        //res = new HashSet<>();
         searchNode firstNode = new searchNode(initial, 0, null);
         moveSequence.insert(firstNode);
         //moveSequence.min().ws.estimatedDistanceToGoal() != 0
+//        while (true) {
+//            searchNode min = moveSequence.delMin();
+//            res.add(min.ws);
+//            additionCnt += 1;
+//            if (min.ws.estimatedDistanceToGoal() == 0) {
+//                moveCnt = min.moveSoFar;
+//                break;
+//            } else {
+//                Iterable<WorldState> neighbors = min.ws.neighbors();
+//                for (WorldState tempWS : neighbors) {
+//                    searchNode tempNode = new searchNode(tempWS, min.moveSoFar + 1, min);
+//                    //optimization: do not enqueue a neighbor if the same as the prev search node's worldState
+//                    if (tempNode.ws.equals(min.prevNode)){
+//                        continue;
+//                    }
+//                    moveSequence.insert(tempNode);
+//                }
+//            }
+//        }
         while (true) {
             searchNode min = moveSequence.delMin();
-            res.add(min.ws);
-            additionCnt += 1;
             if (min.ws.estimatedDistanceToGoal() == 0) {
                 moveCnt = min.moveSoFar;
                 break;
-            } else {
-                Iterable<WorldState> neighbors = min.ws.neighbors();
-                for (WorldState tempWS : neighbors) {
-                    searchNode tempNode = new searchNode(tempWS, min.moveSoFar + 1, min);
+            }
+            Iterable<WorldState> neighbors = min.ws.neighbors();
+            for (WorldState tempWS : neighbors) {
+                searchNode tempNode = new searchNode(tempWS, min.moveSoFar + 1, min);
                     //optimization: do not enqueue a neighbor if the same as the prev search node's worldState
-                    if (tempNode.ws.equals(min.prevNode)){
-                        continue;
-                    }
-                    moveSequence.insert(tempNode);
+                if (tempNode.ws.equals(min.prevNode)){
+                    continue;
                 }
+                moveSequence.insert(tempNode);
             }
         }
+        searchNode s = moveSequence.min();
+        while (s != null) {
+            res.add(s.ws);
+            s = s.prevNode;
+        }
+
     }
 
     /**

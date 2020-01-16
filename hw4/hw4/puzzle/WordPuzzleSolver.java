@@ -19,6 +19,5 @@ public class WordPuzzleSolver {
         for (WorldState ws : solver.solution()) {
             StdOut.println(ws);
         }
-        StdOut.println(solver.additionCnt);
     }
 }

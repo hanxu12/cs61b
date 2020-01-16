@@ -2,7 +2,6 @@ package hw4.puzzle;
 
 import java.util.Set;
 import java.util.HashSet;
-
 import edu.princeton.cs.introcs.In;
 
 public class Word implements WorldState {

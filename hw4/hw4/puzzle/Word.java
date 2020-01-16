@@ -114,4 +114,9 @@ public class Word implements WorldState {
         result = 31 * result + (goal != null ? goal.hashCode() : 0);
         return result;
     }
+
+    public static void main(String[] args) {
+            Word w = new Word("hose", "nurse");
+            System.out.println(w.estimatedDistanceToGoal());
+    }
 }

@@ -2,8 +2,8 @@ package hw4.puzzle;
 import edu.princeton.cs.algs4.Queue;
 
 public class Board implements WorldState {
-    int[][] board;
-    int len;
+    private int[][] board;
+    private int len;
 
     public Board(int[][] tiles) {
         if (tiles.length <= 0) {
@@ -108,6 +108,9 @@ public class Board implements WorldState {
             return false;
         }
         Board tempBoard = (Board) y;
+        if (this.size() != tempBoard.size()){
+            return false;
+        }
         for (int i = 0; i < len; i++) {
             for (int j = 0; j < len; j++) {
                 if (this.tileAt(i, j) != tempBoard.tileAt(i, j)) {

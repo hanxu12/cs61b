@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solver {
-    public class SearchNode {
+    private class SearchNode {
         WorldState ws;
         SearchNode prevNode;
         int moveSoFar;
@@ -26,13 +26,11 @@ public class Solver {
 //        }
 //    };
 
-    MinPQ<SearchNode> moveSequence = new MinPQ<SearchNode>(1, (o1, o2) ->
+    private MinPQ<SearchNode> moveSequence = new MinPQ<SearchNode>(1, (o1, o2) ->
             ((o1.moveSoFar + o1.ws.estimatedDistanceToGoal())
                     - (o2.moveSoFar + o2.ws.estimatedDistanceToGoal())));
     
-    List<WorldState> res = new ArrayList<WorldState>();
-    int moveCnt;
-    int additionCnt = 0;
+    private List<WorldState> res = new ArrayList<WorldState>();
     /**
      * Constructor which solves the puzzle.
      * Computing everything necessary for moves() and solution()

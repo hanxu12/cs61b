@@ -116,7 +116,7 @@ public class Word implements WorldState {
     }
 
     public static void main(String[] args) {
-            Word w = new Word("hose", "nurse");
-            System.out.println(w.estimatedDistanceToGoal());
+        Word w = new Word("hose", "nurse");
+        System.out.println(w.estimatedDistanceToGoal());
     }
 }

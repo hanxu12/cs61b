@@ -1,20 +1,16 @@
 package hw4.puzzle;
 import edu.princeton.cs.algs4.MinPQ;
-
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
-import java.util.Comparator;
 
 public class Solver {
-    public class searchNode {
+    public class SearchNode {
         WorldState ws;
-        searchNode prevNode;
+        SearchNode prevNode;
         int moveSoFar;
 
 
-        public searchNode(WorldState ws, int moveSoFar, searchNode prevNode) {
+        public SearchNode(WorldState ws, int moveSoFar, SearchNode prevNode) {
             this.ws = ws;
             this.moveSoFar = moveSoFar;
             this.prevNode = prevNode;
@@ -22,29 +18,32 @@ public class Solver {
 
     }
 
-//    Comparator<searchNode> searchNodeComparator = new Comparator<searchNode>() {
+//    Comparator<SearchNode> searchNodeComparator = new Comparator<SearchNode>() {
 //        @Override
-//        public int compare(searchNode o1, searchNode o2) {
-//            return (o1.moveSoFar + o1.ws.estimatedDistanceToGoal()) - (o2.moveSoFar + o2.ws.estimatedDistanceToGoal());
+//        public int compare(SearchNode o1, SearchNode o2) {
+//            return (o1.moveSoFar + o1.ws.estimatedDistanceToGoal())
+//            - (o2.moveSoFar + o2.ws.estimatedDistanceToGoal());
 //        }
 //    };
 
-    MinPQ<searchNode> moveSequence = new MinPQ<searchNode>(1, (o1, o2) ->
-            ((o1.moveSoFar + o1.ws.estimatedDistanceToGoal()) - (o2.moveSoFar + o2.ws.estimatedDistanceToGoal())));
-    //Set<WorldState> res;
+    MinPQ<SearchNode> moveSequence = new MinPQ<SearchNode>(1, (o1, o2) ->
+            ((o1.moveSoFar + o1.ws.estimatedDistanceToGoal())
+                    - (o2.moveSoFar + o2.ws.estimatedDistanceToGoal())));
+    
     List<WorldState> res = new ArrayList<WorldState>();
     int moveCnt;
     int additionCnt = 0;
     /**
      * Constructor which solves the puzzle.
-     * Computing everything necessary for moves() and solution() to not have to solve the problem again.
+     * Computing everything necessary for moves() and solution()
+     * to not have to solve the problem again.
      * Solves the problem using the A* algorithm. Assumes a solution exists.
      */
     public Solver(WorldState initial) {
-        searchNode firstNode = new searchNode(initial, 0, null);
+        SearchNode firstNode = new SearchNode(initial, 0, null);
         moveSequence.insert(firstNode);
 //        while (true) {
-//            searchNode min = moveSequence.delMin();
+//            SearchNode min = moveSequence.delMin();
 //            res.add(min.ws); //bug is here
 //            additionCnt += 1;
 //            if (min.ws.estimatedDistanceToGoal() == 0) {
@@ -53,8 +52,9 @@ public class Solver {
 //            } else {
 //                Iterable<WorldState> neighbors = min.ws.neighbors();
 //                for (WorldState tempWS : neighbors) {
-//                    searchNode tempNode = new searchNode(tempWS, min.moveSoFar + 1, min);
-//                    //optimization: do not enqueue a neighbor if the same as the prev search node's worldState
+//                    SearchNode tempNode = new SearchNode(tempWS, min.moveSoFar + 1, min);
+//                    //optimization: do not enqueue a neighbor if the
+//                    //same as the prev search node's worldState
 //                    if (tempNode.ws.equals(min.prevNode.ws)){
 //                        continue;
 //                    }
@@ -63,16 +63,17 @@ public class Solver {
 //            }
 //        }
         while (!moveSequence.min().ws.isGoal()) {
-            searchNode min = moveSequence.delMin();
+            SearchNode min = moveSequence.delMin();
             for (WorldState neighbor : min.ws.neighbors()) {
-                searchNode tempNode = new searchNode(neighbor, min.moveSoFar + 1, min);
-                    //optimization: do not enqueue a neighbor if the same as the prev search node's worldState
-                if (min.prevNode == null || !neighbor.equals(min.prevNode.ws)){
+                SearchNode tempNode = new SearchNode(neighbor, min.moveSoFar + 1, min);
+                    //optimization: do not enqueue a neighbor
+                // if the same as the prev search node's worldState
+                if (min.prevNode == null || !neighbor.equals(min.prevNode.ws)) {
                     moveSequence.insert(tempNode);
                 }
             }
         }
-        searchNode s = moveSequence.min();
+        SearchNode s = moveSequence.min();
         while (s != null) {
             //add new item to the front
             res.add(0, s.ws);

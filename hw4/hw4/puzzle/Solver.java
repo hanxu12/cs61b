@@ -43,10 +43,9 @@ public class Solver {
     public Solver(WorldState initial) {
         searchNode firstNode = new searchNode(initial, 0, null);
         moveSequence.insert(firstNode);
-        //moveSequence.min().ws.estimatedDistanceToGoal() != 0
 //        while (true) {
 //            searchNode min = moveSequence.delMin();
-//            res.add(min.ws);
+//            res.add(min.ws); //bug is here
 //            additionCnt += 1;
 //            if (min.ws.estimatedDistanceToGoal() == 0) {
 //                moveCnt = min.moveSoFar;
@@ -56,42 +55,36 @@ public class Solver {
 //                for (WorldState tempWS : neighbors) {
 //                    searchNode tempNode = new searchNode(tempWS, min.moveSoFar + 1, min);
 //                    //optimization: do not enqueue a neighbor if the same as the prev search node's worldState
-//                    if (tempNode.ws.equals(min.prevNode)){
+//                    if (tempNode.ws.equals(min.prevNode.ws)){
 //                        continue;
 //                    }
 //                    moveSequence.insert(tempNode);
 //                }
 //            }
 //        }
-        while (true) {
+        while (!moveSequence.min().ws.isGoal()) {
             searchNode min = moveSequence.delMin();
-            if (min.ws.estimatedDistanceToGoal() == 0) {
-                moveCnt = min.moveSoFar;
-                break;
-            }
-            Iterable<WorldState> neighbors = min.ws.neighbors();
-            for (WorldState tempWS : neighbors) {
-                searchNode tempNode = new searchNode(tempWS, min.moveSoFar + 1, min);
+            for (WorldState neighbor : min.ws.neighbors()) {
+                searchNode tempNode = new searchNode(neighbor, min.moveSoFar + 1, min);
                     //optimization: do not enqueue a neighbor if the same as the prev search node's worldState
-                if (tempNode.ws.equals(min.prevNode)){
-                    continue;
+                if (min.prevNode == null || !neighbor.equals(min.prevNode.ws)){
+                    moveSequence.insert(tempNode);
                 }
-                moveSequence.insert(tempNode);
             }
         }
         searchNode s = moveSequence.min();
         while (s != null) {
-            res.add(s.ws);
+            //add new item to the front
+            res.add(0, s.ws);
             s = s.prevNode;
         }
-
     }
 
     /**
      * Returns the min number of moves to solve the puzzle starting at the initial WorldState.
      */
     public int moves() {
-        return moveCnt;
+        return res.size() - 1;
     }
 
     /**

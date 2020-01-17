@@ -108,7 +108,7 @@ public class Board implements WorldState {
             return false;
         }
         Board tempBoard = (Board) y;
-        if (this.size() != tempBoard.size()){
+        if (this.size() != tempBoard.size()) {
             return false;
         }
         for (int i = 0; i < len; i++) {

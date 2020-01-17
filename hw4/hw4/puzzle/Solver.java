@@ -9,8 +9,7 @@ public class Solver {
         SearchNode prevNode;
         int moveSoFar;
 
-
-        public SearchNode(WorldState ws, int moveSoFar, SearchNode prevNode) {
+        private SearchNode(WorldState ws, int moveSoFar, SearchNode prevNode) {
             this.ws = ws;
             this.moveSoFar = moveSoFar;
             this.prevNode = prevNode;

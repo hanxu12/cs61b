@@ -8,9 +8,14 @@ import java.util.Map;
  * not draw the output correctly.
  */
 public class Rasterer {
+    public static final double ROOT_ULLAT = 37.892195547244356, ROOT_ULLON = -122.2998046875,
+            ROOT_LRLAT = 37.82280243352756, ROOT_LRLON = -122.2119140625;
+    /** Each tile is 256x256 pixels. */
+    public static final int TILE_SIZE = 256;
 
     public Rasterer() {
         // YOUR CODE HERE
+
     }
 
     /**
@@ -42,8 +47,81 @@ public class Rasterer {
      *                    forget to set this to true on success! <br>
      */
     public Map<String, Object> getMapRaster(Map<String, Double> params) {
-        // System.out.println(params);
+        Map<String, Double> input = params;
+        Double lrlonIn = params.get("lrlon");
+        Double ullonIn = params.get("ullon");
+        Double ullatIn = params.get("ullat");
+        Double lrlatIn = params.get("lrlat");
+        Double widthIn = params.get("w");
+        Double heightIn = params.get("h");
+        Double LonDPP = (lrlonIn - ullonIn) / widthIn;
+        int depth = 0;
+        Double rootLonDPP = (ROOT_LRLON - ROOT_ULLON) / TILE_SIZE;
+        while (rootLonDPP > LonDPP) {
+            rootLonDPP = rootLonDPP / 2;
+            depth += 1;
+            if (depth == 7) {
+                break;
+            }
+        }
+        //determining x
+        int leftX = 0;
+        int rightX = (int)(Math.pow(2, depth)) - 1;
+        Double lonDivider = (ROOT_LRLON - ROOT_ULLON) / (Math.pow(2, depth));
+        Double tempUlLon = ROOT_ULLON;
+        while (tempUlLon < ullonIn) {
+            if (tempUlLon + lonDivider > ullonIn) {
+                break;
+            }
+            tempUlLon += lonDivider;
+            leftX += 1;
+        }
+        Double tempLrLon = ROOT_LRLON;
+        while (tempLrLon > lrlonIn) {
+            if (tempLrLon - lonDivider < lrlonIn) {
+                break;
+            }
+            tempLrLon -= lonDivider;
+            rightX -= 1;
+        }
+        //determining y
+        int topY = 0;
+        int btmY = (int)(Math.pow(2, depth)) - 1;
+        Double latDivider = (ROOT_ULLAT - ROOT_LRLAT) / (Math.pow(2, depth));
+        Double tempUlLat = ROOT_ULLAT;
+        while (tempUlLat > ullatIn) {
+            if (tempUlLat - latDivider < ullatIn) {
+                break;
+            }
+            tempUlLat -= latDivider;
+            topY += 1;
+        }
+        Double tempLrLat = ROOT_LRLAT;
+        while (tempLrLat < lrlatIn) {
+            if (tempLrLat + latDivider > lrlatIn) {
+                break;
+            }
+            tempLrLat += latDivider;
+            btmY -= 1;
+        }
+        String[][] renderGrid = new String[btmY - topY + 1][rightX - leftX + 1];
+        for (int i = topY; i <= btmY; i++) {
+            for (int j = leftX; j <= rightX; j++) {
+                String temp = "d" + depth + "_x" + j + "_y" + i + ".png";
+                renderGrid[i - topY][j - leftX] = temp;
+            }
+        }
+        System.out.println(params);
         Map<String, Object> results = new HashMap<>();
+        results.put("render_grid", renderGrid);
+        results.put("depth", depth);
+        results.put("raster_ul_lon", tempUlLon);
+        results.put("raster_lr_lon", tempLrLon);
+        results.put("raster_ul_lat", tempUlLat);
+        results.put("raster_lr_lat", tempLrLat);
+        results.put("query_success", true);
+
+        System.out.println(results);
         System.out.println("Since you haven't implemented getMapRaster, nothing is displayed in "
                            + "your browser.");
         return results;

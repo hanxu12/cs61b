@@ -26,7 +26,7 @@ public class Rasterer {
      *     grid is referred to as a "tile".
      *     <ul>
      *         <li>The tiles collected must cover the most longitudinal distance per pixel
-     *         (LonDPP) possible, while still covering less than or equal to the amount of
+     *         (lonDPP) possible, while still covering less than or equal to the amount of
      *         longitudinal distance per pixel in the query box for the user viewport size. </li>
      *         <li>Contains all tiles that intersect the query bounding box that fulfill the
      *         above condition.</li>
@@ -54,10 +54,10 @@ public class Rasterer {
         Double lrlatIn = params.get("lrlat");
         Double widthIn = params.get("w");
         Double heightIn = params.get("h");
-        Double LonDPP = (lrlonIn - ullonIn) / widthIn;
+        Double lonDPP = (lrlonIn - ullonIn) / widthIn;
         int depth = 0;
         Double rootLonDPP = (ROOT_LRLON - ROOT_ULLON) / TILE_SIZE;
-        while (rootLonDPP > LonDPP) {
+        while (rootLonDPP > lonDPP) {
             rootLonDPP = rootLonDPP / 2;
             depth += 1;
             if (depth == 7) {
@@ -66,7 +66,7 @@ public class Rasterer {
         }
         //determining x
         int leftX = 0;
-        int rightX = (int)(Math.pow(2, depth)) - 1;
+        int rightX = (int) (Math.pow(2, depth)) - 1;
         Double lonDivider = (ROOT_LRLON - ROOT_ULLON) / (Math.pow(2, depth));
         Double tempUlLon = ROOT_ULLON;
         while (tempUlLon < ullonIn) {
@@ -86,7 +86,7 @@ public class Rasterer {
         }
         //determining y
         int topY = 0;
-        int btmY = (int)(Math.pow(2, depth)) - 1;
+        int btmY = (int) (Math.pow(2, depth)) - 1;
         Double latDivider = (ROOT_ULLAT - ROOT_LRLAT) / (Math.pow(2, depth));
         Double tempUlLat = ROOT_ULLAT;
         while (tempUlLat > ullatIn) {

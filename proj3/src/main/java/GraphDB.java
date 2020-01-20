@@ -60,13 +60,7 @@ public class GraphDB {
             this.id = id;
         }
     }
-
-//        private void addNodeAttri(int index, String k, String v){
-//            //wrong
-//            cache.get(index).attributes.put(k, v);
-//        }
-//    }
-
+    
     /**
      * Example constructor shows how to create and start an XML parser.
      * You do not need to modify this constructor, but you're welcome to do so.
@@ -126,48 +120,47 @@ public class GraphDB {
 //    }
 
     public void addEdge(String name, ArrayList<Long> connections) {
+        int size = connections.size();
         //edge case
-        if (connections.size() < 2) {
+        if (size < 2) {
             return;
         }
-        if (connections.size() == 2) {
+        //2 nodes in the connection
+        else if (size == 2) {
             //add the 2nd element to the 1st
-            int firstArrIdx = nodeMap.get(connections.get(0)).arrIdx;
+            int arrIdx = nodeMap.get(connections.get(0)).arrIdx;  //to be added index
             Way tempWay = new Way(name, connections.get(1));
-            adj[firstArrIdx].add(tempWay);
+            addEdgeHelper(arrIdx, tempWay);
             //add the 1st element to the 2nd
-            int secondArrIdx = nodeMap.get(connections.get(1)).arrIdx;
+            arrIdx = nodeMap.get(connections.get(1)).arrIdx;
             tempWay = new Way(name, connections.get(0));
-            adj[secondArrIdx].add(tempWay);
+            addEdgeHelper(arrIdx, tempWay);
         }
+        //there are >= 3 nodes in the connection
         else {
-            for (int i = 0; i < connections.size(); i++) {
-                if (i == 0) {
-
-                }
-                if ()
-            }
-            for (Long id : connections) {
-                int arrIdx = nodeMap.get(id).arrIdx;
-                addEdgeHelper(arrIdx, id, name, connections);
+            //add the 2nd element as 1st's neighbor
+            int arrIdx = nodeMap.get(connections.get(0)).arrIdx;
+            Way tempWay = new Way(name, connections.get(1));
+            addEdgeHelper(arrIdx, tempWay);
+            //add the 2nd last to the last element
+            arrIdx = nodeMap.get(connections.get(size - 1)).arrIdx;
+            tempWay = new Way(name, connections.get(size - 2));
+            addEdgeHelper(arrIdx, tempWay);
+            //add neighbors for 1 ~ 2nd last
+            for (int i = 1; i <= size - 2; i++) {
+                arrIdx = nodeMap.get(connections.get(i)).arrIdx;
+                addEdgeHelper(arrIdx, new Way(name, connections.get(i - 1)));
+                addEdgeHelper(arrIdx, new Way(name, connections.get(i + 1)));
             }
         }
     }
 
-    private void addEdgeHelper(int arrIdx, Long mainId, String name, ArrayList<Long> connections) {
-        for (Long id : connections) {
-            if (id == mainId) {
-                continue;
-            }
-            Way temp = new Way(name, id);
-            adj[arrIdx].add(temp);
+    private void addEdgeHelper(int arrIdx, Way newAdj) {
+        if (!adj[arrIdx].contains(newAdj)) {
+            adj[arrIdx].add(newAdj);
         }
     }
 
-
-
-//        int adjIdx = cache.get(id1).index;
-//        adj[adjIdx].add(id2);
     /**
      * Helper to process strings into their "cleaned" form, ignoring punctuation and capitalization.
      * @param s Input string.
@@ -276,7 +269,16 @@ public class GraphDB {
      * @return The id of the node in the graph closest to the target.
      */
     long closest(double lon, double lat) {
-        return 0;
+        double closestDist = Double.MAX_VALUE;
+        //Long closestId = (Long)(nodeMap.keySet().toArray()[0]);
+        Long closestId = 0L;
+        for (Long id : nodeMap.keySet()) {
+            double tempLat = nodeMap.get(id).lat;
+            double tempLon = nodeMap.get(id).lon;
+            closestDist = Math.min(closestDist, distance(tempLon, tempLat, lon, lat));
+            closestId = id;
+        }
+        return closestId;
     }
 
     /**

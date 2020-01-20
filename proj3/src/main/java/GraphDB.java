@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import java.util.Iterator;
 
 /**
  * Graph for storing all of the intersection (vertex) and road (edge) information.
@@ -25,7 +26,8 @@ public class GraphDB {
     /** Your instance variables for storing the graph. You should consider
      * creating helper classes, e.g. Node, Edge, etc. */
     private Map<Long, Node> nodeMap = new HashMap<>();
-    private ArrayList<Way>[] adj =  (ArrayList<Way>[]) new ArrayList[1];
+    //private ArrayList<Way>[] adj =  (ArrayList<Way>[]) new ArrayList[9999999];
+    private ArrayList<Way>[] adj =  (ArrayList<Way>[]) new ArrayList[10];
     int adjOccupied = 0;
 
     static class Node {
@@ -163,12 +165,19 @@ public class GraphDB {
      *  we can reasonably assume this since typically roads are connected.
      */
     private void clean() {
-        for (Long id: nodeMap.keySet()) {
-            if (adj[nodeMap.get(id).arrIdx].isEmpty()) {
-                this.nodeMap.remove(id);
-                //remove from the Array optional
+        Iterator it = nodeMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Long, Node> item = (Map.Entry<Long, Node>) it.next();
+            if (adj[item.getValue().arrIdx].isEmpty()) {
+                it.remove();
             }
         }
+//        for (Long id: nodeMap.keySet()) {
+//            if (adj[nodeMap.get(id).arrIdx].isEmpty()) {
+//                this.nodeMap.remove(id);
+//                //remove from the Array optional
+//            }
+//        }
     }
 
     /**

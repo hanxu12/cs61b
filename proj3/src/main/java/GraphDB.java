@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.lang.reflect.Array;
+//import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +24,9 @@ import java.util.List;
 public class GraphDB {
     /** Your instance variables for storing the graph. You should consider
      * creating helper classes, e.g. Node, Edge, etc. */
-    private Map<Long, Node> nodeMap;
-    private ArrayList<Way>[] adj;
-    int adjOccupied;
+    private Map<Long, Node> nodeMap = new HashMap<>();
+    private ArrayList<Way>[] adj =  (ArrayList<Way>[]) new ArrayList[1];
+    int adjOccupied = 0;
 
     static class Node {
         Long id;
@@ -45,11 +45,11 @@ public class GraphDB {
             this.lon = lon;
             this.name = name;
         }
-        void modifyName(String name){
-            this.name = name;
+        void modifyName(String ndName) {
+            this.name = ndName;
         }
-        void modifyArrIdx(int arrIdx){
-            this.arrIdx = arrIdx;
+        void modifyArrIdx(int ndArrIdx) {
+            this.arrIdx = ndArrIdx;
         }
     }
     static class Way {
@@ -60,7 +60,7 @@ public class GraphDB {
             this.id = id;
         }
     }
-    
+
     /**
      * Example constructor shows how to create and start an XML parser.
      * You do not need to modify this constructor, but you're welcome to do so.
@@ -78,12 +78,12 @@ public class GraphDB {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
-        adjOccupied = 0;
-        nodeMap = new HashMap<>();
-        adj = (ArrayList<Way>[]) new ArrayList[2];
-        for (int i = 0; i < adj.length; i++) {
-            adj[i] = new ArrayList<Way>();
-        }
+//        adjOccupied = 0;
+//        nodeMap = new HashMap<>();
+//        adj = (ArrayList<Way>[]) new ArrayList[20];
+//        for (int i = 0; i < adj.length; i++) {
+//            adj[i] = new ArrayList<Way>();
+//        }
         clean();
     }
 
@@ -94,39 +94,28 @@ public class GraphDB {
             adj[i] = new ArrayList<Way>();
         }
         for (int i = 0; i < backupAdj.length; i++) {
-            for (Way way : backupAdj[i]){
+            for (Way way : backupAdj[i]) {
                 adj[i].add(way);
             }
         }
     }
 
     public void addNode(Long id, Node n) {
-        if (adjOccupied / adj.length >= 0.75){
+        if (adjOccupied / adj.length >= 0.75) {
             resize();
         }
         n.modifyArrIdx(adjOccupied);
         this.nodeMap.put(id, n);
+        this.adj[adjOccupied] = new ArrayList<Way>();
         adjOccupied += 1;
     }
-
-//    public void addNode(int id, double lat, double lon) {
-//        Node tempVertex = new Node(id, lat, lon, "");
-//        this.cache.put(id, tempVertex);
-//    }
-//
-//    public void addNode(int id, double lat, double lon, String name) {
-//        Node tempVertex = new Node(id, lat, lon, name);
-//        this.cache.put(id, tempVertex);
-//    }
 
     public void addEdge(String name, ArrayList<Long> connections) {
         int size = connections.size();
         //edge case
         if (size < 2) {
             return;
-        }
-        //2 nodes in the connection
-        else if (size == 2) {
+        } else if (size == 2) {    //2 nodes
             //add the 2nd element to the 1st
             int arrIdx = nodeMap.get(connections.get(0)).arrIdx;  //to be added index
             Way tempWay = new Way(name, connections.get(1));
@@ -135,9 +124,7 @@ public class GraphDB {
             arrIdx = nodeMap.get(connections.get(1)).arrIdx;
             tempWay = new Way(name, connections.get(0));
             addEdgeHelper(arrIdx, tempWay);
-        }
-        //there are >= 3 nodes in the connection
-        else {
+        } else { // >= 3 nodes in the connection
             //add the 2nd element as 1st's neighbor
             int arrIdx = nodeMap.get(connections.get(0)).arrIdx;
             Way tempWay = new Way(name, connections.get(1));
@@ -176,11 +163,10 @@ public class GraphDB {
      *  we can reasonably assume this since typically roads are connected.
      */
     private void clean() {
-        // Your code here.
-        for (Long id: nodeMap.keySet()){
+        for (Long id: nodeMap.keySet()) {
             if (adj[nodeMap.get(id).arrIdx].isEmpty()) {
-                nodeMap.remove(id);
-                //also remove the array? no need
+                this.nodeMap.remove(id);
+                //remove from the Array optional
             }
         }
     }
@@ -190,9 +176,8 @@ public class GraphDB {
      * @return An iterable of id's of all vertices in the graph.
      */
     Iterable<Long> vertices() {
-        //YOUR CODE HERE, this currently returns only an empty list.
         List<Long> vertices = new ArrayList<Long>();
-        for (Long id: nodeMap.keySet()){
+        for (Long id: nodeMap.keySet()) {
             vertices.add(id);
         }
         return vertices;
@@ -275,8 +260,10 @@ public class GraphDB {
         for (Long id : nodeMap.keySet()) {
             double tempLat = nodeMap.get(id).lat;
             double tempLon = nodeMap.get(id).lon;
-            closestDist = Math.min(closestDist, distance(tempLon, tempLat, lon, lat));
-            closestId = id;
+            if (distance(tempLon, tempLat, lon, lat) < closestDist) {
+                closestDist = distance(tempLon, tempLat, lon, lat);
+                closestId = id;
+            }
         }
         return closestId;
     }

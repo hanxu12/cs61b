@@ -2,7 +2,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.lang.reflect.Array;
+//import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -111,11 +111,12 @@ public class GraphBuildingHandler extends DefaultHandler {
             if (k.equals("maxspeed")) {
                 //System.out.println("Max Speed: " + v);
                 /* set the max speed of the "current way" here. */
+                String maxSpeed = v;
             } else if (k.equals("highway")) {
                 //System.out.println("Highway type: " + v);
                 /* Figure out whether this way and its connections are valid. */
                 /* Hint: Setting a "flag" is good enough! */
-                if (ALLOWED_HIGHWAY_TYPES.contains(v)){
+                if (ALLOWED_HIGHWAY_TYPES.contains(v)) {
                     flag = 1;
                 }
             } else if (k.equals("name")) {
@@ -156,10 +157,12 @@ public class GraphBuildingHandler extends DefaultHandler {
             /* Hint1: If you have stored the possible connections for this way, here's your
             chance to actually connect the nodes together if the way is valid. */
 //            System.out.println("Finishing a way...");
-            if (flag == 1){
+            if (flag == 1) {
                 g.addEdge(nameOfWay, connections);
                 flag = 0;
             }
+            nameOfWay = "";
+            connections.clear();
         }
     }
 

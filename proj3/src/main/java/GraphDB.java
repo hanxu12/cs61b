@@ -6,7 +6,11 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 
 /**
  * Graph for storing all of the intersection (vertex) and road (edge) information.
@@ -20,6 +24,48 @@ import java.util.ArrayList;
 public class GraphDB {
     /** Your instance variables for storing the graph. You should consider
      * creating helper classes, e.g. Node, Edge, etc. */
+    private Map<Long, Node> nodeMap;
+    private ArrayList<Way>[] adj;
+    int adjOccupied;
+
+    static class Node {
+        Long id;
+        Integer arrIdx;
+        double lat;
+        double lon;
+        String name;
+        Node(Long id, double lat, double lon) {
+            this.id = id;
+            this.lat = lat;
+            this.lon = lon;
+        }
+        Node(Long id, double lat, double lon, String name) {
+            this.id = id;
+            this.lat = lat;
+            this.lon = lon;
+            this.name = name;
+        }
+        void modifyName(String name){
+            this.name = name;
+        }
+        void modifyArrIdx(int arrIdx){
+            this.arrIdx = arrIdx;
+        }
+    }
+    static class Way {
+        String name;
+        Long id;
+        Way(String name, Long id) {
+            this.name = name;
+            this.id = id;
+        }
+    }
+
+//        private void addNodeAttri(int index, String k, String v){
+//            //wrong
+//            cache.get(index).attributes.put(k, v);
+//        }
+//    }
 
     /**
      * Example constructor shows how to create and start an XML parser.
@@ -31,7 +77,6 @@ public class GraphDB {
             File inputFile = new File(dbPath);
             FileInputStream inputStream = new FileInputStream(inputFile);
             // GZIPInputStream stream = new GZIPInputStream(inputStream);
-
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             GraphBuildingHandler gbh = new GraphBuildingHandler(this);
@@ -39,9 +84,90 @@ public class GraphDB {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
+        adjOccupied = 0;
+        nodeMap = new HashMap<>();
+        adj = (ArrayList<Way>[]) new ArrayList[2];
+        for (int i = 0; i < adj.length; i++) {
+            adj[i] = new ArrayList<Way>();
+        }
         clean();
     }
 
+    public void resize() {
+        ArrayList<Way>[] backupAdj = adj;
+        adj = new ArrayList[adj.length * 2];
+        for (int i = 0; i < adj.length; i++) {
+            adj[i] = new ArrayList<Way>();
+        }
+        for (int i = 0; i < backupAdj.length; i++) {
+            for (Way way : backupAdj[i]){
+                adj[i].add(way);
+            }
+        }
+    }
+
+    public void addNode(Long id, Node n) {
+        if (adjOccupied / adj.length >= 0.75){
+            resize();
+        }
+        n.modifyArrIdx(adjOccupied);
+        this.nodeMap.put(id, n);
+        adjOccupied += 1;
+    }
+
+//    public void addNode(int id, double lat, double lon) {
+//        Node tempVertex = new Node(id, lat, lon, "");
+//        this.cache.put(id, tempVertex);
+//    }
+//
+//    public void addNode(int id, double lat, double lon, String name) {
+//        Node tempVertex = new Node(id, lat, lon, name);
+//        this.cache.put(id, tempVertex);
+//    }
+
+    public void addEdge(String name, ArrayList<Long> connections) {
+        //edge case
+        if (connections.size() < 2) {
+            return;
+        }
+        if (connections.size() == 2) {
+            //add the 2nd element to the 1st
+            int firstArrIdx = nodeMap.get(connections.get(0)).arrIdx;
+            Way tempWay = new Way(name, connections.get(1));
+            adj[firstArrIdx].add(tempWay);
+            //add the 1st element to the 2nd
+            int secondArrIdx = nodeMap.get(connections.get(1)).arrIdx;
+            tempWay = new Way(name, connections.get(0));
+            adj[secondArrIdx].add(tempWay);
+        }
+        else {
+            for (int i = 0; i < connections.size(); i++) {
+                if (i == 0) {
+
+                }
+                if ()
+            }
+            for (Long id : connections) {
+                int arrIdx = nodeMap.get(id).arrIdx;
+                addEdgeHelper(arrIdx, id, name, connections);
+            }
+        }
+    }
+
+    private void addEdgeHelper(int arrIdx, Long mainId, String name, ArrayList<Long> connections) {
+        for (Long id : connections) {
+            if (id == mainId) {
+                continue;
+            }
+            Way temp = new Way(name, id);
+            adj[arrIdx].add(temp);
+        }
+    }
+
+
+
+//        int adjIdx = cache.get(id1).index;
+//        adj[adjIdx].add(id2);
     /**
      * Helper to process strings into their "cleaned" form, ignoring punctuation and capitalization.
      * @param s Input string.
@@ -57,7 +183,13 @@ public class GraphDB {
      *  we can reasonably assume this since typically roads are connected.
      */
     private void clean() {
-        // TODO: Your code here.
+        // Your code here.
+        for (Long id: nodeMap.keySet()){
+            if (adj[nodeMap.get(id).arrIdx].isEmpty()) {
+                nodeMap.remove(id);
+                //also remove the array? no need
+            }
+        }
     }
 
     /**
@@ -66,7 +198,11 @@ public class GraphDB {
      */
     Iterable<Long> vertices() {
         //YOUR CODE HERE, this currently returns only an empty list.
-        return new ArrayList<Long>();
+        List<Long> vertices = new ArrayList<Long>();
+        for (Long id: nodeMap.keySet()){
+            vertices.add(id);
+        }
+        return vertices;
     }
 
     /**
@@ -75,7 +211,11 @@ public class GraphDB {
      * @return An iterable of the ids of the neighbors of v.
      */
     Iterable<Long> adjacent(long v) {
-        return null;
+        ArrayList<Long> adjList = new ArrayList<>();
+        for (Way way : adj[nodeMap.get(v).arrIdx]) {
+            adjList.add(way.id);
+        }
+        return adjList;
     }
 
     /**
@@ -145,7 +285,7 @@ public class GraphDB {
      * @return The longitude of the vertex.
      */
     double lon(long v) {
-        return 0;
+        return nodeMap.get(v).lon;
     }
 
     /**
@@ -154,6 +294,6 @@ public class GraphDB {
      * @return The latitude of the vertex.
      */
     double lat(long v) {
-        return 0;
+        return nodeMap.get(v).lat;
     }
 }

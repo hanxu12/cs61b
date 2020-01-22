@@ -27,7 +27,7 @@ public class GraphDB {
      * creating helper classes, e.g. Node, Edge, etc. */
     private Map<Long, Node> nodeMap = new HashMap<>();
     //private ArrayList<Way>[] adj =  (ArrayList<Way>[]) new ArrayList[9999999];
-    private ArrayList<Way>[] adj =  (ArrayList<Way>[]) new ArrayList[10];
+    private ArrayList<Way>[] adj =  (ArrayList<Way>[]) new ArrayList[20];
     int adjOccupied = 0;
 
     static class Node {
@@ -165,6 +165,8 @@ public class GraphDB {
      *  we can reasonably assume this since typically roads are connected.
      */
     private void clean() {
+        //use iterator to iterate though the hashmap
+        //source:https://stackoverflow.com/questions/602636/
         Iterator it = nodeMap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<Long, Node> item = (Map.Entry<Long, Node>) it.next();
@@ -172,6 +174,7 @@ public class GraphDB {
                 it.remove();
             }
         }
+        //otherwise, leads to concurrent exception
 //        for (Long id: nodeMap.keySet()) {
 //            if (adj[nodeMap.get(id).arrIdx].isEmpty()) {
 //                this.nodeMap.remove(id);

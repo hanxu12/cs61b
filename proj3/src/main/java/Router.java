@@ -29,7 +29,6 @@ public class Router {
      */
 
 
-    //best stores best known distances + parents
 
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
@@ -37,6 +36,17 @@ public class Router {
         long dest = g.closest(destlon, destlat);
         HashMap<Long, Double> best = new HashMap<>();
         HashMap<Long, Long> bestParent = new HashMap<>();
+        ArrayHeap<Long> fringe = new ArrayHeap<>();
+        //add all vertices to the PQ
+        //all vertices have infinite priorities while the source with priority 0
+        for (long V: g.vertices()) {
+            if (V == start) {
+                fringe.insert(V, 0.0);
+            } else{
+                fringe.insert(V, Double.MAX_VALUE);
+            }
+        }
+
         for (long V: g.vertices()){
             best.put(V, Double.MAX_VALUE);
         }
@@ -45,24 +55,20 @@ public class Router {
             bestParent.put(V, null);
         }
 
-        PriorityQueue<Long> pq = new PriorityQueue<>(1, (o1, o2) ->
-                 (int) ((best.get(bestParent.get(o1)) + g.distance(bestParent.get(o1), o1) + g.distance(o1, dest))
-                        - (best.get(bestParent.get(o2)) + g.distance(bestParent.get(o2), o2) + g.distance(o2, dest))));
-        pq.add(start);
-
         //if V is the goal, we are done
-        while (pq.peek() != dest) {
+        while (fringe.peek() != dest) {
             //dequeue the closest vertex
-            Long closestV = pq.poll();
+            Long closestV = fringe.removeMin();
             //iterate through V's neighbors - > iterate through w
             for (long w : g.adjacent(closestV)) {
-                double newDistToW = best.get(closestV) + g.distance(closestV, w);
-                double bestNew = best.get(w);
-                if (newDistToW < best.get(w)) {
-                    best.put(w, newDistToW);
+                double tempDistToW = best.get(closestV) + g.distance(closestV, w);
+                if (tempDistToW < best.get(w)) {
+                    best.put(w, tempDistToW);
                     bestParent.put(w, closestV);  //sequence: child, parent
                     //if w is present, update w's priority to
-                    pq.add(w);
+                    //if (fringe.contains(w)) {
+                        fringe.changePriority(w, tempDistToW + g.distance(w, dest));
+                    //}
                 }
             }
         }
@@ -76,16 +82,52 @@ public class Router {
         return res;
     }
 
-//    Comparator<Double> fringeComparator = new Comparator<Double>() {
-//        @Override
-//        public long compare(long w1, long w2) {
-//            return
+
+//    public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
+//                                          double destlon, double destlat) {
+//        long start = g.closest(stlon, stlat);
+//        long dest = g.closest(destlon, destlat);
+//        HashMap<Long, Double> best = new HashMap<>();
+//        HashMap<Long, Long> bestParent = new HashMap<>();
+//        for (long V: g.vertices()){
+//            best.put(V, Double.MAX_VALUE);
 //        }
-//    }
-//    //d(s, v) + ed(v, w) + h(w)
-//    private double computePriority(long w){
+//        best.put(start, 0.0);
+//        for (long V: g.vertices()) {
+//            bestParent.put(V, null);
+//        }
 //
+//        PriorityQueue<Long> pq = new PriorityQueue<>(1, (o1, o2) ->
+//                 (int) ((best.get(bestParent.get(o1)) + g.distance(bestParent.get(o1), o1) + g.distance(o1, dest))
+//                        - (best.get(bestParent.get(o2)) + g.distance(bestParent.get(o2), o2) + g.distance(o2, dest))));
+//        pq.add(start);
+//
+//        //if V is the goal, we are done
+//        while (pq.peek() != dest) {
+//            //dequeue the closest vertex
+//            Long closestV = pq.poll();
+//            //iterate through V's neighbors - > iterate through w
+//            for (long w : g.adjacent(closestV)) {
+//                double newDistToW = best.get(closestV) + g.distance(closestV, w);
+//                double bestNew = best.get(w);
+//                if (newDistToW < best.get(w)) {
+//                    best.put(w, newDistToW);
+//                    bestParent.put(w, closestV);  //sequence: child, parent
+//                    //if w is present, update w's priority to
+//                    pq.add(w);
+//                }
+//            }
+//        }
+//        //return the sequence
+//        List<Long> res = new ArrayList<>();
+//        Long curr = dest;
+//        while (curr != null) {
+//            res.add(0, curr);
+//            curr = bestParent.get(curr);
+//        }
+//        return res;
 //    }
+
 
     /**
      * Create the list of directions corresponding to a route on the graph.

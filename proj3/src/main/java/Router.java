@@ -62,9 +62,12 @@ public class Router {
         pq.add(start);
 
         //if V is the goal, we are done
-        while (pq.peek() != dest) {
+        while (!pq.isEmpty()) {
             //dequeue the closest vertex
             Long closestV = pq.poll();
+            if (closestV == dest) {
+                break;
+            }
             //iterate through V's neighbors - > iterate through w
             for (long W : g.adjacent(closestV)) {
                 double distToW = distTo.get(closestV) + g.distance(closestV, W);
